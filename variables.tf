@@ -22,6 +22,17 @@ variable "ubuntu_server_ec2_root_block_device_encrypted" {}
 variable "ubuntu_server_ec2_delete_on_termination" {}
 variable "ubuntu_server_ec2_associate_public_ip_address" {}
 
+
+variable "windows_server_ec2_ami_name" {}
+variable "windows_server_ec2_instance_type" {}
+variable "windows_server_ec2_tag" {}
+variable "windows_server_ec2_volume_type" {}
+variable "windows_server_ec2_volume_size" {}
+variable "windows_server_ec2_root_block_device_iops" {}
+variable "windows_server_ec2_root_block_device_encrypted" {}
+variable "windows_server_ec2_delete_on_termination" {}
+variable "windows_server_ec2_associate_public_ip_address" {}
+
 variable "ebs_kms_description" {}
 variable "ebs_kms_key_usage" {}
 

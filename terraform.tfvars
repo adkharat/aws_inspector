@@ -21,6 +21,16 @@ ubuntu_server_ec2_root_block_device_encrypted = true
 ubuntu_server_ec2_delete_on_termination       = true
 ubuntu_server_ec2_associate_public_ip_address = false
 
+windows_server_ec2_ami_name                    = "ami-07cc1bbe145f35b58"              //Replace AMI value as per your region (Windows Server 2023) ? 
+windows_server_ec2_instance_type               = "t2.micro"                           //Replace with c5n.4xlarge
+windows_server_ec2_tag                         = "Microsoft Windows Server 2022 Base" //Replace with 2023
+windows_server_ec2_volume_type                 = "io1"                                //Replace with io1
+windows_server_ec2_volume_size                 = 30                                   //Replace with 300
+windows_server_ec2_root_block_device_iops      = 100                                  //Replace with 15000
+windows_server_ec2_root_block_device_encrypted = true
+windows_server_ec2_delete_on_termination       = true
+windows_server_ec2_associate_public_ip_address = false
+
 ebs_kms_description = "kms key for EBS volume encryption"
 ebs_kms_key_usage   = "ENCRYPT_DECRYPT"
 
