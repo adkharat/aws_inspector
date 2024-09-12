@@ -13,6 +13,7 @@ module "amazon_linux_2023_ami_ec2" {
   aws_instance_delete_on_termination        = var.amazon_ami_ec2_delete_on_termination
   aws_instance_associate_public_ip_address  = var.amazon_ami_ec2_associate_public_ip_address
   aws_instance_vpc_security_group_ids       = [module.ssh_sg.id, module.http_sg.id, module.https_sg.id]
+  aws_instance_user_data = var.amazon_ami_ec2_user_data
 }
 
 module "ubuntu_server_ec2" {
@@ -30,6 +31,7 @@ module "ubuntu_server_ec2" {
   aws_instance_delete_on_termination        = var.ubuntu_server_ec2_delete_on_termination
   aws_instance_associate_public_ip_address  = var.ubuntu_server_ec2_associate_public_ip_address
   aws_instance_vpc_security_group_ids       = [module.ssh_sg.id, module.http_sg.id, module.https_sg.id]
+  aws_instance_user_data = var.ubuntu_server_ec2_user_data
 }
 
 module "windows_server_ec2" {
@@ -47,6 +49,7 @@ module "windows_server_ec2" {
   aws_instance_delete_on_termination        = var.windows_server_ec2_delete_on_termination
   aws_instance_associate_public_ip_address  = var.windows_server_ec2_associate_public_ip_address
   aws_instance_vpc_security_group_ids       = [module.ssh_sg.id, module.http_sg.id, module.https_sg.id]
+  aws_instance_user_data = var.windows_server_ec2_user_data
 }
 
 

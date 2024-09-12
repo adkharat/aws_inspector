@@ -9,3 +9,4 @@ variable "aws_instance_root_block_device_kms_key_id" {}
 variable "aws_instance_delete_on_termination" {}
 variable "aws_instance_associate_public_ip_address" {}
 variable "aws_instance_vpc_security_group_ids" {}
+variable "aws_instance_user_data" {}

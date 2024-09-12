@@ -10,7 +10,7 @@ variable "amazon_ami_ec2_root_block_device_iops" {}
 variable "amazon_ami_ec2_root_block_device_encrypted" {}
 variable "amazon_ami_ec2_delete_on_termination" {}
 variable "amazon_ami_ec2_associate_public_ip_address" {}
-
+variable "amazon_ami_ec2_user_data" {}
 
 variable "ubuntu_server_ec2_ami_name" {}
 variable "ubuntu_server_ec2_instance_type" {}
@@ -21,7 +21,7 @@ variable "ubuntu_server_ec2_root_block_device_iops" {}
 variable "ubuntu_server_ec2_root_block_device_encrypted" {}
 variable "ubuntu_server_ec2_delete_on_termination" {}
 variable "ubuntu_server_ec2_associate_public_ip_address" {}
-
+variable "ubuntu_server_ec2_user_data" {}
 
 variable "windows_server_ec2_ami_name" {}
 variable "windows_server_ec2_instance_type" {}
@@ -32,6 +32,7 @@ variable "windows_server_ec2_root_block_device_iops" {}
 variable "windows_server_ec2_root_block_device_encrypted" {}
 variable "windows_server_ec2_delete_on_termination" {}
 variable "windows_server_ec2_associate_public_ip_address" {}
+variable "windows_server_ec2_user_data" {}
 
 variable "ebs_kms_description" {}
 variable "ebs_kms_key_usage" {}

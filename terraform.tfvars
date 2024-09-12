@@ -10,6 +10,7 @@ amazon_ami_ec2_root_block_device_iops      = 100   //Replace with 15000
 amazon_ami_ec2_root_block_device_encrypted = true
 amazon_ami_ec2_delete_on_termination       = true
 amazon_ami_ec2_associate_public_ip_address = false
+amazon_ami_ec2_user_data = "inspectoragent_install.sh"
 
 ubuntu_server_ec2_ami_name                    = "ami-0e86e20dae9224db8" //Replace AMI value as per your region (Ubuntu Server 24.04 LTS) ? 
 ubuntu_server_ec2_instance_type               = "t2.micro"              //Replace with c5n.4xlarge
@@ -20,6 +21,7 @@ ubuntu_server_ec2_root_block_device_iops      = 100   //Replace with 15000
 ubuntu_server_ec2_root_block_device_encrypted = true
 ubuntu_server_ec2_delete_on_termination       = true
 ubuntu_server_ec2_associate_public_ip_address = false
+ubuntu_server_ec2_user_data = "inspectoragent_install.sh"
 
 windows_server_ec2_ami_name                    = "ami-07cc1bbe145f35b58"              //Replace AMI value as per your region (Windows Server 2023) ? 
 windows_server_ec2_instance_type               = "t2.micro"                           //Replace with c5n.4xlarge
@@ -30,6 +32,7 @@ windows_server_ec2_root_block_device_iops      = 100                            
 windows_server_ec2_root_block_device_encrypted = true
 windows_server_ec2_delete_on_termination       = true
 windows_server_ec2_associate_public_ip_address = false
+windows_server_ec2_user_data = "inspectoragent_install.sh"
 
 ebs_kms_description = "kms key for EBS volume encryption"
 ebs_kms_key_usage   = "ENCRYPT_DECRYPT"
