@@ -1,5 +1,5 @@
 module "amazon_linux_2023_ami_ec2" {
-  depends_on = [module.ssh_sg]
+  depends_on = [module.ssh_sg, module.http_sg.id, module.https_sg.id]
 
   source                                    = "./module/aws_ec2"
   aws_instance_type                         = var.amazon_ami_ec2_instance_type
@@ -17,7 +17,7 @@ module "amazon_linux_2023_ami_ec2" {
 }
 
 module "ubuntu_server_ec2" {
-  depends_on = [module.ssh_sg]
+  depends_on = [module.ssh_sg, module.http_sg.id, module.https_sg.id]
 
   source                                    = "./module/aws_ec2"
   aws_instance_type                         = var.ubuntu_server_ec2_instance_type
@@ -35,7 +35,7 @@ module "ubuntu_server_ec2" {
 }
 
 module "windows_server_ec2" {
-  depends_on = [module.ssh_sg]
+  depends_on = [module.ssh_sg, module.http_sg.id, module.https_sg.id]
 
   source                                    = "./module/aws_ec2"
   aws_instance_type                         = var.windows_server_ec2_instance_type
