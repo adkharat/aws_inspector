@@ -2,7 +2,7 @@ resource "aws_security_group" "security_group" {
 
   name        = var.security_group_name
   description = var.security_group_description
-# vpc_id      = module.vpc.vpc_id //TODO : To Enable
+  #vpc_id      = var.security_group_vpc_id //TODO : To Enable
 
   ingress {
     description = var.security_group_ingress_description
@@ -12,10 +12,11 @@ resource "aws_security_group" "security_group" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-egress {
+  egress {
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
+
 }
