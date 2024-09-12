@@ -6,10 +6,39 @@ variable "amazon_ami_ec2_instance_type" {}
 variable "amazon_ami_ec2_tag" {}
 variable "amazon_ami_ec2_volume_type" {}
 variable "amazon_ami_ec2_volume_size" {}
+variable "amazon_ami_ec2_root_block_device_iops" {}
+variable "amazon_ami_ec2_root_block_device_encrypted" {}
 variable "amazon_ami_ec2_delete_on_termination" {}
 variable "amazon_ami_ec2_associate_public_ip_address" {}
+
+
+variable "ubuntu_server_ec2_ami_name" {}
+variable "ubuntu_server_ec2_instance_type" {}
+variable "ubuntu_server_ec2_tag" {}
+variable "ubuntu_server_ec2_volume_type" {}
+variable "ubuntu_server_ec2_volume_size" {}
+variable "ubuntu_server_ec2_root_block_device_iops" {}
+variable "ubuntu_server_ec2_root_block_device_encrypted" {}
+variable "ubuntu_server_ec2_delete_on_termination" {}
+variable "ubuntu_server_ec2_associate_public_ip_address" {}
+
+variable "ebs_kms_description" {}
+variable "ebs_kms_key_usage" {}
+
 variable "ssh_sg_security_group_name" {}
 variable "ssh_sg_security_group_description" {}
 variable "ssh_sg_security_group_ingress_description" {}
 variable "ssh_sg_security_group_ingress_to_port" {}
 variable "ssh_sg_security_group_ingress_from_port" {}
+
+variable "http_sg_security_group_name" {}
+variable "http_sg_security_group_description" {}
+variable "http_sg_security_group_ingress_description" {}
+variable "http_sg_security_group_ingress_to_port" {}
+variable "http_sg_security_group_ingress_from_port" {}
+
+variable "https_sg_security_group_name" {}
+variable "https_sg_security_group_description" {}
+variable "https_sg_security_group_ingress_description" {}
+variable "https_sg_security_group_ingress_to_port" {}
+variable "https_sg_security_group_ingress_from_port" {}
