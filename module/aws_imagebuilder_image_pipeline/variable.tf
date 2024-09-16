@@ -1,0 +1,9 @@
+variable "imagebuilder_image_pipeline_name" {}
+variable "imagebuilder_image_pipeline_image_recipe_arn" {}
+variable "imagebuilder_image_pipeline_infrastructure_configuration_arn" {}
+variable "imagebuilder_image_pipeline_status" {}
+variable "imagebuilder_image_pipeline_description" {}
+variable "imagebuilder_image_pipeline_schedule_expression" {}
+variable "imagebuilder_image_pipeline_pipeline_execution_start_condition" {}
+variable "imagebuilder_image_pipeline_image_tests_enabled" {}
+variable "imagebuilder_image_pipeline_timeout_minutes" {}
