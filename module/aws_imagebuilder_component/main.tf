@@ -4,18 +4,5 @@ resource "aws_imagebuilder_component" "imagebuilder_component" {
     platform = var.imagebuilder_component_platform
     uri = var.imagebuilder_component_uri
     version = var.imagebuilder_component_version
-#     data = yamlencode({
-#     phases = [{
-#       name = "build"
-#       steps = [{
-#         action = "ExecuteBash"
-#         inputs = {
-#           commands = ["echo 'hello world'"]
-#         }
-#         name      = "example"
-#         onFailure = "Continue"
-#       }]
-#     }]
-#     schemaVersion = 1.0
-#   })
+    supported_os_versions = var.supported_os_versions
 }
