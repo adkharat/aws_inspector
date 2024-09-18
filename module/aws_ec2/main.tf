@@ -5,6 +5,7 @@ resource "aws_instance" "ec2_instance" {
   associate_public_ip_address = var.aws_instance_associate_public_ip_address
   vpc_security_group_ids      = var.aws_instance_vpc_security_group_ids
   user_data = file(var.aws_instance_user_data)
+  iam_instance_profile = var.ec2_instance_iam_instance_profile_name
 
   root_block_device {
     volume_type           = var.aws_instance_volume_type

@@ -55,3 +55,11 @@ https_sg_security_group_description         = "https security group for EC2"
 https_sg_security_group_ingress_description = "Inbound http sg"
 https_sg_security_group_ingress_to_port     = 443
 https_sg_security_group_ingress_from_port   = 443
+
+ssm_role_name = "ssm_rol_for_ec2"
+image_builder_infra_config_role_name = "image_builder_infra_config_role"
+ssm_iam_instance_profile_name = "ssm_iam_instance_profile"
+image_builder_infra_config_iam_policy_arn = ["arn:aws:iam::aws:policy/EC2InstanceProfileForImageBuilder", "arn:aws:iam::aws:policy/EC2InstanceProfileForImageBuilderECRContainerBuilds", "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"]
+
+package_s3_bucket_name = "ec2packagebucket"
+# package_s3_bucket_prefix = "ubuntu" 

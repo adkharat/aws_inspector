@@ -54,3 +54,12 @@ variable "https_sg_security_group_description" {}
 variable "https_sg_security_group_ingress_description" {}
 variable "https_sg_security_group_ingress_to_port" {}
 variable "https_sg_security_group_ingress_from_port" {}
+
+
+variable "ssm_role_name" {}
+variable "ssm_iam_instance_profile_name" {}
+variable "image_builder_infra_config_role_name" {}
+variable "image_builder_infra_config_iam_policy_arn" {}
+
+variable "package_s3_bucket_name" {}
+# variable "package_s3_bucket_prefix" {}

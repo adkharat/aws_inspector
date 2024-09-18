@@ -10,3 +10,4 @@ variable "aws_instance_delete_on_termination" {}
 variable "aws_instance_associate_public_ip_address" {}
 variable "aws_instance_vpc_security_group_ids" {}
 variable "aws_instance_user_data" {}
+variable "ec2_instance_iam_instance_profile_name" {}
