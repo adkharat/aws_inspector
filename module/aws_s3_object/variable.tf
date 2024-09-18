@@ -1,3 +1,3 @@
 variable "s3_bucket" {}
 variable "key" {}
-# variable "source" {}
+variable "sourcepath" {}

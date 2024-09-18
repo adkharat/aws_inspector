@@ -18,17 +18,20 @@ module "s3_bucket_versioning" {
 module "directory_for_amazon_ami_package" {
   source = "./module/aws_s3_object"
   s3_bucket = module.package_s3_bucket.id
-  key = "amazon/"
+  key = "amazon/amazonamiconfig.yaml"
+  sourcepath = "./scripts/amazonamiconfig.yaml"
 }
 
 module "directory_for_ubuntu_package" {
   source = "./module/aws_s3_object"
   s3_bucket = module.package_s3_bucket.id
-  key = "ubuntu/"
+  key = "ubuntu/ubuntuconfig.yaml"
+  sourcepath = "./scripts/ubuntuconfig.yaml"
 }
 
 module "directory_for_window_package" {
   source = "./module/aws_s3_object"
   s3_bucket = module.package_s3_bucket.id
-  key = "window/"
+  key = "window/windowsconfig.yaml"
+  sourcepath = "./scripts/windowsconfig.yaml"
 }
