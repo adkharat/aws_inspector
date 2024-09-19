@@ -7,3 +7,6 @@ variable "imagebuilder_image_pipeline_schedule_expression" {}
 variable "imagebuilder_image_pipeline_pipeline_execution_start_condition" {}
 variable "imagebuilder_image_pipeline_image_tests_enabled" {}
 variable "imagebuilder_image_pipeline_timeout_minutes" {}
+variable "magebuilder_image_pipeline_timezone" {}
+variable "image_scanning_enabled" {}
+variable "distribution_configuration_arn" {}

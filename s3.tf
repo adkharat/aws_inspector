@@ -36,9 +36,8 @@ module "directory_for_window_package" {
   sourcepath = "./scripts/windowsconfig.yaml"
 }
 
-
-module "imagebuilder_ec2_iinfra_logs" {
+module "imagebuilder_ec2_infra_logs" {
   source = "./module/aws_s3_bucket"
-  s3_bucket_name = "imagebuilder_ec2_iinfra_logs"
+  s3_bucket_name = "imagebuilderec2infralogs"
 #   s3_bucket_prefix = var.package_s3_bucket_prefix
 }

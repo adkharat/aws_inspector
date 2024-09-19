@@ -1,13 +1,16 @@
 #!/bin/bash
 
 # Update the package manager
-sudo yum update -y
+sudo apt update -y
 
-# Install httpd (Apache)
-sudo yum install -y httpd
+# Install Apache2 (httpd)
+sudo apt install -y apache2
 
-# Start the httpd service
-sudo systemctl start httpd
+# Start the Apache2 service
+sudo systemctl start apache2
 
-# Enable the httpd service to start on boot
-sudo systemctl enable httpd
+# Enable the Apache2 service to start on boot
+sudo systemctl enable apache2
+
+# Check the status of the Apache2 service
+sudo systemctl status apache2

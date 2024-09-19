@@ -23,6 +23,6 @@ output "package_s3_bucket_ubuntu_metadata" {
   value = module.directory_for_ubuntu_package.metadata
 }
 
-output "naimagebuilder_component_uri" {
-  value = "s3://${module.package_s3_bucket.id}/${module.directory_for_ubuntu_package.key}abc.png"
+output "account_id" {
+  value = local.account_id
 }
