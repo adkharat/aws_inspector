@@ -3,14 +3,14 @@
 # Update the package manager
 sudo apt update -y
 
-# Install Apache2 (httpd)
-sudo apt install -y apache2
+#SSM Agent is installed, by default, on Ubuntu Server 22.04 LTS(reinstall the agent)
+#sudo snap install amazon-ssm-agent --classic
 
-# Start the Apache2 service
-sudo systemctl start apache2
+#determine if SSM Agent is running.
+#sudo snap list amazon-ssm-agent
 
-# Enable the Apache2 service to start on boot
-sudo systemctl enable apache2
+#start ssm-agent
+#sudo snap start amazon-ssm-agent
 
-# Check the status of the Apache2 service
-sudo systemctl status apache2
+#Check the status of the agent.
+sudo snap services amazon-ssm-agent

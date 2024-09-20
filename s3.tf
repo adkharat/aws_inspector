@@ -5,6 +5,8 @@ module "package_s3_bucket" {
 }
 
 module "s3_bucket_versioning" {
+  depends_on = [ module.package_s3_bucket ]
+
   source = "./module/aws_s3_bucket_versioning"
   s3_bucket_name = module.package_s3_bucket.id
 }
@@ -16,6 +18,8 @@ module "s3_bucket_versioning" {
 # }
 
 module "directory_for_amazon_ami_package" {
+  depends_on = [ module.package_s3_bucket ]
+
   source = "./module/aws_s3_object"
   s3_bucket = module.package_s3_bucket.id
   key = "amazon/amazonamiconfig.yaml"
@@ -23,6 +27,8 @@ module "directory_for_amazon_ami_package" {
 }
 
 module "directory_for_ubuntu_package" {
+  depends_on = [ module.package_s3_bucket ]
+
   source = "./module/aws_s3_object"
   s3_bucket = module.package_s3_bucket.id
   key = "ubuntu/ubuntuconfig.yaml"
@@ -30,6 +36,8 @@ module "directory_for_ubuntu_package" {
 }
 
 module "directory_for_window_package" {
+  depends_on = [ module.package_s3_bucket ]
+
   source = "./module/aws_s3_object"
   s3_bucket = module.package_s3_bucket.id
   key = "window/windowsconfig.yaml"
@@ -38,6 +46,6 @@ module "directory_for_window_package" {
 
 module "imagebuilder_ec2_infra_logs" {
   source = "./module/aws_s3_bucket"
-  s3_bucket_name = "imagebuilderec2infralogs"
+  s3_bucket_name = "imagebuilderec2infralog4"
 #   s3_bucket_prefix = var.package_s3_bucket_prefix
 }

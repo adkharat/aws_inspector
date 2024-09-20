@@ -61,5 +61,5 @@ image_builder_infra_config_role_name = "image_builder_infra_config_role"
 ssm_iam_instance_profile_name = "ssm_iam_instance_profile"
 image_builder_infra_config_iam_policy_arn = ["arn:aws:iam::aws:policy/EC2InstanceProfileForImageBuilder", "arn:aws:iam::aws:policy/EC2InstanceProfileForImageBuilderECRContainerBuilds", "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"]
 
-package_s3_bucket_name = "ec2packagebucket"
+package_s3_bucket_name = "ec2inspackagebucket4"
 # package_s3_bucket_prefix = "ubuntu" 

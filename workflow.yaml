@@ -1,0 +1,39 @@
+name: test-image
+description: Workflow to test golden image
+schemaVersion: 1.0
+
+parameters:
+  - name: "waitForActionAtEnd"
+    description: "Wait for an external action at the end of the workflow"
+    type: boolean
+
+steps:
+  - name: LaunchTestInstance
+    action: LaunchInstance
+    onFailure: Continue
+    inputs: 
+      waitFor: ssmAgent
+
+  - name: CollectFindingsStep
+    action: CollectImageScanFindings
+    onFailure: Abort
+    inputs:
+        instanceId.$: "$.stepOutputs.LaunchTestInstance.instanceId"
+
+  - name: CreateImageFromInstance
+    action: CreateImage
+    onFailure: Abort
+    inputs:
+      instanceId.$: "$.stepOutputs.LaunchTestInstance.instanceId"
+
+  - name: TerminateTestInstance
+    action: TerminateInstance
+    onFailure: Continue
+    inputs:
+      instanceId.$: "$.stepOutputs.LaunchTestInstance.instanceId"
+
+  - name: WaitForActionAtEnd
+    action: WaitForAction
+    if:
+      booleanEquals: true
+      value: "$.parameters.waitForActionAtEnd"
