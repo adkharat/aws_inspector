@@ -2,7 +2,8 @@
 resource "aws_imagebuilder_component" "imagebuilder_component" {
     name = var.imagebuilder_component_name
     platform = var.imagebuilder_component_platform
-    uri = var.imagebuilder_component_uri
+    # uri = var.imagebuilder_component_uri
+    data = var.imagebuilder_component_uri
     version = var.imagebuilder_component_version
     supported_os_versions = var.supported_os_versions
 }

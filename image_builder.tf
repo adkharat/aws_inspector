@@ -4,16 +4,30 @@ module "imagebuilder_component_for_ubuntu" {
   source = "./module/aws_imagebuilder_component"
   imagebuilder_component_name = "imagebuilder_component_for_ubuntu"
   imagebuilder_component_platform = "Linux"
-  imagebuilder_component_uri = "s3://${module.package_s3_bucket.id}/${module.directory_for_ubuntu_package.key}" //key (yaml file) must be less than 64 KB
+  # imagebuilder_component_uri = "s3://${module.package_s3_bucket.id}/${module.directory_for_ubuntu_package.key}" //key (yaml file) must be less than 64 KB
   imagebuilder_component_version = "1.0.0"
   supported_os_versions = ["Ubuntu 22.04"]
+  imagebuilder_component_uri = yamlencode({
+    phases = [{
+      name = "build"
+      steps = [{
+        action = "ExecuteBash"
+        inputs = {
+          commands = ["echo 'hello world'"]
+        }
+        name      = "example"
+        onFailure = "Continue"
+      }]
+    }]
+    schemaVersion = 1.0
+  })
 }
 
 module "image_recipe_for_ubuntu" {
   depends_on = [ module.imagebuilder_component_for_ubuntu ]
 
   source = "./module/aws_imagebuilder_image_recipe"
-  imagebuilder_image_recipe_name = "image_recipe_for_ubuntu"
+  imagebuilder_image_recipe_name = var.ubuntu_imagebuilder_image_recipe_name
   imagebuilder_image_recipe_version = "1.0.0"
   imagebuilder_image_recipe_parent_image = "ami-0a0e5d9c7acc336f1"
   imagebuilder_image_recipe_block_device_mapping_device_name = "/dev/xvdb" //  /dev/sda or /dev/xvdb.
@@ -24,11 +38,11 @@ module "image_recipe_for_ubuntu" {
   imagebuilder_image_recipe_component_arn = module.imagebuilder_component_for_ubuntu.arn
   uninstall_systems_manager_agent_after_build = false
   user_data_base64 = base64encode(file("./scripts/ubuntu_bootstrap.sh"))
-  working_directory = "/workspace"
+  working_directory = "/tmp"
 }
 
 module "imagebuilder_infrastructure_configuration" {
-    depends_on = [ module.image_builder_infra_config_role_attachment_instance_profile ]
+    depends_on = [ module.image_builder_infra_config_role_attachment_instance_profile, module.ssh_sg, module.http_sg, module.https_sg ]
 
     source = "./module/aws_imagebuilder_infrastructure_configuration"
     imagebuilder_infrastructure_configuration_name = "imagebuilder_ec2_infrastructure"
@@ -90,5 +104,12 @@ module "imagebuilder_ubuntu_image_pipeline" {
   image_scanning_enabled = true
 }
 
+module "ssm_association_ubuntu" {
+  source = "./module/aws_ssm_association"
+
+  ssm_association_document_name = "AWS-GatherSoftwareInventory"
+  ssm_association_instance_key = "tag:Name"
+  ssm_association_instance_id = ["Test instance for ${var.ubuntu_imagebuilder_image_recipe_name}"]
+}
 
 

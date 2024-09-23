@@ -12,7 +12,7 @@ steps:
     action: LaunchInstance
     onFailure: Continue
     inputs: 
-      waitFor: ssmAgent
+      waitFor: "ssmAgent"
 
   - name: CollectFindingsStep
     action: CollectImageScanFindings

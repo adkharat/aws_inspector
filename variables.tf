@@ -63,3 +63,5 @@ variable "image_builder_infra_config_iam_policy_arn" {}
 
 variable "package_s3_bucket_name" {}
 # variable "package_s3_bucket_prefix" {}
+
+variable "ubuntu_imagebuilder_image_recipe_name" {}

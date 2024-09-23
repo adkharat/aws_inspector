@@ -46,6 +46,6 @@ module "directory_for_window_package" {
 
 module "imagebuilder_ec2_infra_logs" {
   source = "./module/aws_s3_bucket"
-  s3_bucket_name = "imagebuilderec2infralog4"
+  s3_bucket_name = "imagebuilderec2infralog0"
 #   s3_bucket_prefix = var.package_s3_bucket_prefix
 }

@@ -20,7 +20,7 @@ resource "aws_imagebuilder_image_pipeline" "imagebuilder_image_pipeline" {
       workflow_arn = var.workflow_arn
       parameter {
         name = "waitForActionAtEnd"
-        value = true
+        value = false
       }
     }
 
