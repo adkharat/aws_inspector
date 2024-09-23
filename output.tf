@@ -43,3 +43,15 @@ output "current_arn" {
 output "iam_users_list" {
   value = local.iam_users
 }
+
+output "az_0" {
+  value = data.aws_availability_zones.available.names[0]
+}
+
+output "az_1" {
+  value = data.aws_availability_zones.available.names[1]
+}
+
+output "nat_gateway_public_ip" {
+  value = module.elastic_ip.public_ip
+}

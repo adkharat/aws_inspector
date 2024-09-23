@@ -8,6 +8,7 @@ terraform {
 
 data "aws_caller_identity" "current" {}
 data "aws_iam_users" "iam_users" {}
+data "aws_availability_zones" "available" {}
 
 locals {
   account_id = [data.aws_caller_identity.current.account_id]
