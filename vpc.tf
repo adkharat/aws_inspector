@@ -67,58 +67,58 @@ module "nat_gateway" {
   }
 }
 
-# module "private_subnet_network_interface" {
-#   depends_on = [ module.private_subnet ]
-
-#   source = "./module/aws_network_interface"
-#   network_interface_subnet_id = module.private_subnet.id
-#   network_interface_tags = {
-#     "Name" = "golden_image_network_interface"
-#   }
-# }
-
 module "private_subnet_route_table" {
   depends_on = [ module.vpc, module.nat_gateway ]
 
   source = "./module/aws_route_table"
   route_table_vpc_id = module.vpc.id
-  # route_table_route = [{
-  #   cidr_block = "0.0.0.0/0"
-  #   nat_gateway_id = module.nat_gateway.id
-  # }]
-  
   tags = {
     "Name" = "golden_image_private_subnet_route_table"
   }
 }
 
-# module "public_subnet_route_table" {
-#   depends_on = [ module.vpc, module.igw ]
+module "public_subnet_route_table" {
+  depends_on = [ module.vpc, module.igw ]
 
-#   source = "./module/aws_route_table"
-#   route_table_vpc_id = module.vpc.id
+  source = "./module/aws_route_table"
+  route_table_vpc_id = module.vpc.id
+  tags = {
+    "Name" = "golden_image_public_subnet_route_table"
+  }
+}
 
-#   # route_table_route = [{
-#   #   cidr_block = "0.0.0.0/0"
-#   #   igw = module.igw.id
-#   # }]
+module "private_subnet_nat_gateway_route" {
+  depends_on = [ module.private_subnet_route_table, module.nat_gateway ]
+  
+  source = "./module/aws_route_nat_gateway"
+  route_table_id = module.private_subnet_route_table.id
+  destination_cidr_block = "0.0.0.0/0"
+  nat_gateway_id = module.nat_gateway.id
+}
 
-#   tags = {
-#     "Name" = "golden_image_public_subnet_route_table"
-#   }
-# }
+module "public_subnet_nat_gateway_route" {
+  depends_on = [ module.public_subnet_route_table, module.igw ]
+  
+  source = "./module/aws_route_internet_gateway"
+  route_table_id = module.public_subnet_route_table.id
+  destination_cidr_block = "0.0.0.0/0"
+  internet_gateway_id = module.igw.id
+}
+
 
 module "private_route_table_association" {
+  depends_on = [ module.private_subnet_route_table, module.private_subnet ]
   source = "./module/aws_route_table_association"
   route_table_id = module.private_subnet_route_table.id
   subnet_id = module.private_subnet.id
 }
 
-# module "public_route_table_association" {
-#   source = "./module/aws_route_table_association"
-#   route_table_id = module.public_subnet_route_table.id
-#   subnet_id = module.public_subnet.id
-# }
+module "public_route_table_association" {
+  depends_on = [ module.public_subnet_route_table, module.public_subnet ]
+  source = "./module/aws_route_table_association"
+  route_table_id = module.public_subnet_route_table.id
+  subnet_id = module.public_subnet.id
+}
 
 module "vpc_endpoint" {
   depends_on = [ module.vpc, module.private_subnet ]
