@@ -26,3 +26,20 @@ output "package_s3_bucket_ubuntu_metadata" {
 output "account_id" {
   value = local.account_id
 }
+
+
+output "current_user_id" {
+  value = local.current_user_id
+}
+
+output "current_id" {
+  value = local.current_id
+}
+
+output "current_arn" {
+  value = local.current_arn
+}
+
+output "iam_users_list" {
+  value = local.iam_users
+}
