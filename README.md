@@ -129,6 +129,12 @@ CollectFindingsStep:
 Action: Collects vulnerability findings from the image scan.
 Failure Handling: Abort on failure.
 Inputs: Uses the instance ID from the previous step (LaunchTestInstance).
+
+NotifyOnFailure:
+Action: aws:runCommand <aws sns publish --topic-arn ….. instance: $(instanceId)>
+Failure Handling: Continue on failure.
+Inputs: Uses the instance ID from the previous step (LaunchTestInstance).
+
 CreateImageFromInstance:
 Action: Creates an AMI from the test instance.
 Failure Handling: Abort on failure.
