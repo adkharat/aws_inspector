@@ -192,6 +192,13 @@ In our workflow setup, we will add below steps after image scanning :
 CollectFindingsStep: This step runs the image scan on the launched instance.
 NotifyOnFailure: If the image scan fails, this step will publish a message to the SNS topic (ImageBuilderFailureNotifications) with the instance ID, notifying the user that the scan failed.
 AWS-RunShellScript: The aws sns publish command sends a notification to the SNS topic when invoked.
+
+AWS Inspector
+If you've activated Amazon Inspector for your account, Amazon Inspector automatically scans the EC2 instances that Image Builder launches to build and test a new image.
+Amazon Inspector is a paid service.
+EC2 instances brought up in image pipeline have a short lifespan during the build and test process, and their findings would normally expire as soon as those instances shut down. 
+To help you investigate and remediate findings for your new image, Image Builder can optionally save any findings that Amazon Inspector identified on your EC2 instance during the build process as a csv file on S3 bucket.
+
 Reference : 
 
 https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-imagebuilder-component.html
@@ -200,10 +207,9 @@ https://docs.aws.amazon.com/imagebuilder/latest/userguide/create-image-recipes.h
 
 https://docs.aws.amazon.com/imagebuilder/latest/userguide/how-image-builder-works.html
 
+Amazon Inspector integration in Image Builder
+
 Time zone for pipeline
 
 Find AMIs with the SSM Agent preinstalled
-
-
-
 
