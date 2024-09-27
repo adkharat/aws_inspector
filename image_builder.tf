@@ -1,5 +1,5 @@
 module "imagebuilder_component_for_ubuntu" {
-  depends_on = [ module.package_s3_bucket, module.directory_for_ubuntu_package ]
+  depends_on = [ module.package_s3_bucket, module.directory_for_ubuntu_package, module.kms ]
   
   source = "./module/aws_imagebuilder_component"
   imagebuilder_component_name = "imagebuilder_component_for_ubuntu"
@@ -7,24 +7,29 @@ module "imagebuilder_component_for_ubuntu" {
   # imagebuilder_component_uri = "s3://${module.package_s3_bucket.id}/${module.directory_for_ubuntu_package.key}" //key (yaml file) must be less than 64 KB
   imagebuilder_component_version = "1.0.0"
   supported_os_versions = ["Ubuntu 22.04"]
+  kms_key_id = module.kms.arn
   imagebuilder_component_uri = yamlencode({
     phases = [{
       name = "build"
       steps = [{
         action = "ExecuteBash"
         inputs = {
-          commands = ["echo 'hello world'"]
+          commands = ["echo 'imagebuilder_component ubuntu'"]
         }
-        name      = "example"
+        name      = "imagebuilder_component"
         onFailure = "Continue"
       }]
     }]
     schemaVersion = 1.0
   })
+
+  tags = {
+    "Name" = "imagebuilder_component_for_ubuntu"
+  }
 }
 
 module "image_recipe_for_ubuntu" {
-  depends_on = [ module.imagebuilder_component_for_ubuntu ]
+  depends_on = [ module.imagebuilder_component_for_ubuntu, module.kms ]
 
   source = "./module/aws_imagebuilder_image_recipe"
   imagebuilder_image_recipe_name = var.ubuntu_imagebuilder_image_recipe_name
@@ -39,6 +44,10 @@ module "image_recipe_for_ubuntu" {
   uninstall_systems_manager_agent_after_build = false
   user_data_base64 = base64encode(file("./scripts/ubuntu_bootstrap.sh"))
   working_directory = "/tmp"
+  kms_key_id = module.kms.arn
+  tags = {
+    "Name" = "image_recipe_for_ubuntu"
+  }
 }
 
 module "imagebuilder_infrastructure_configuration" {
@@ -51,17 +60,23 @@ module "imagebuilder_infrastructure_configuration" {
     imagebuilder_infrastructure_configuration_instance_types = ["t2.micro"]
     imagebuilder_infrastructure_configuration_security_group_ids = [module.ssh_sg.id, module.http_sg.id, module.https_sg.id]
     imagebuilder_infrastructure_configuration_terminate_instance_on_failure = true
-    imagebuilder_infrastructure_configuration_s3_logs = module.imagebuilder_ec2_infra_logs.id
-    imagebuilder_infrastructure_configuration_s3_key_prefix = "logs"
+    # imagebuilder_infrastructure_configuration_s3_logs = module.imagebuilder_ec2_infra_logs.id
+    # imagebuilder_infrastructure_configuration_s3_key_prefix = "logs"
+    tags = {
+      "Name" = "imagebuilder_infrastructure_configuration"
+  }
 }
 
 module "ubuntu_distribution" {
+  depends_on = [ module.kms ]
+
   source = "./module/aws_imagebuilder_distribution_configuration"
   imagebuilder_distribution_configuration_name = "ubuntu-ami-dis-conf"
   imagebuilder_distribution_ami_tag = {image = "ubuntu"}
   ami_distribution_name = "ubuntu-ami-dist"
+  kms_key_id = module.kms.arn
   user_ids = local.account_id
-  region = "us-east-1"
+  region = "us-west-2"
 }
 
 # module "imagebuilder_ubuntu_image" {
@@ -81,6 +96,9 @@ module "image_builder_workflow" {
   workflow_type = "TEST"
   # workflow_data_file_path = "s3://ec2inspackagebucket2/ubuntu/workflow.yaml"
   workflow_data_file_path = file("./workflow.yaml")
+  tags = {
+      "Name" = "aws_imagebuilder_workflow"
+  }
 }
 
 //run every Friday morning at 8 am UTC. Enabled testing of the image and setting a timeout of 60 minutes.
@@ -102,6 +120,9 @@ module "imagebuilder_ubuntu_image_pipeline" {
   imagebuilder_image_pipeline_image_tests_enabled = true
   imagebuilder_image_pipeline_timeout_minutes = 60
   image_scanning_enabled = true
+  tags = {
+      "Name" = "imagebuilder_ubuntu_image_pipeline"
+  }
 }
 
 module "ssm_association_ubuntu" {
@@ -110,6 +131,10 @@ module "ssm_association_ubuntu" {
   ssm_association_document_name = "AWS-GatherSoftwareInventory"
   ssm_association_instance_key = "tag:Name"
   ssm_association_instance_id = ["Test instance for ${var.ubuntu_imagebuilder_image_recipe_name}"]
+
+  tags = {
+      "Name" = "ssm_association_ubuntu"
+  }
 }
 
 

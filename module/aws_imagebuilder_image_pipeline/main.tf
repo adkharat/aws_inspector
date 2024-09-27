@@ -33,4 +33,6 @@ resource "aws_imagebuilder_image_pipeline" "imagebuilder_image_pipeline" {
       image_tests_enabled = var.imagebuilder_image_pipeline_image_tests_enabled
       timeout_minutes = var.imagebuilder_image_pipeline_timeout_minutes
     }
+
+    tags = var.tags
 }

@@ -12,3 +12,4 @@ variable "image_scanning_enabled" {}
 variable "distribution_configuration_arn" {}
 variable "workflow_arn" {}
 variable "execution_role_to_execute_workflow" {}
+variable "tags" {}

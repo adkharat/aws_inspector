@@ -3,3 +3,5 @@ variable "imagebuilder_component_platform" {}
 variable "imagebuilder_component_uri" {}
 variable "imagebuilder_component_version" {}
 variable "supported_os_versions" {}
+variable "kms_key_id" {}
+variable "tags" {}

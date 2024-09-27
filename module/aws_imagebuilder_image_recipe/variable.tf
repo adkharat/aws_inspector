@@ -13,3 +13,5 @@ variable "imagebuilder_image_recipe_block_device_mapping_ebs_iops" {}
 variable "uninstall_systems_manager_agent_after_build" {}
 variable "user_data_base64" {}
 variable "working_directory" {}
+variable "kms_key_id" {}
+variable "tags" {}

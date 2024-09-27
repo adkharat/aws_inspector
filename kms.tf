@@ -1,4 +1,4 @@
-module "ebs_kms" {
+module "kms" {
   source              = "./module/aws_kms_key"
   kms_key_description = var.ebs_kms_description
   kms_key_key_usage   = var.ebs_kms_key_usage
@@ -18,4 +18,12 @@ module "ebs_kms" {
     ]
   }
   )
+}
+
+module "kms_alias" {
+  depends_on = [ module.kms ]
+
+  source = "./module/aws_kms_alias"
+  kms_alias_name = "alias/golden-kms-key-alias"
+  target_kms_key_id = module.kms.arn
 }

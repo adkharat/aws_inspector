@@ -6,4 +6,6 @@ resource "aws_imagebuilder_component" "imagebuilder_component" {
     data = var.imagebuilder_component_uri
     version = var.imagebuilder_component_version
     supported_os_versions = var.supported_os_versions
+    kms_key_id = var.kms_key_id
+    tags = var.tags
 }

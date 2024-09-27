@@ -1,3 +1,4 @@
+//https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ssm_association
 resource "aws_ssm_association" "ssm_association" {
   name = var.ssm_association_document_name
   parameters = {
@@ -17,4 +18,6 @@ resource "aws_ssm_association" "ssm_association" {
     key    = var.ssm_association_instance_key
     values = var.ssm_association_instance_id
   }
+
+  tags = var.tags
 }

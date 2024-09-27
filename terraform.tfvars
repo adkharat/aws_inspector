@@ -1,4 +1,4 @@
-aws_region     = "us-east-1"
+aws_region     = "us-west-2"
 resource_types = ["ECR", "EC2"]
 
 amazon_ami_ec2_ami_name                    = "ami-0182f373e66f89c85" //Replace AMI value as per your region
