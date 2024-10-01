@@ -1,4 +1,4 @@
-aws_region     = "us-west-2"
+aws_region     = "us-east-1"
 resource_types = ["ECR", "EC2"]
 
 amazon_ami_ec2_ami_name                    = "ami-0182f373e66f89c85" //Replace AMI value as per your region
@@ -65,3 +65,5 @@ package_s3_bucket_name = "ec2inspackagebucket0"
 # package_s3_bucket_prefix = "ubuntu" 
 
 ubuntu_imagebuilder_image_recipe_name = "ubuntu_receipe"
+amazon_linux_imagebuilder_image_recipe_name = "amazon_linux_receipe"
+windows_imagebuilder_image_recipe_name = "window_server_receipe"

@@ -33,9 +33,17 @@ resource "aws_imagebuilder_image_recipe" "imagebuilder_image_recipe" {
     //script to run when you launch your build instance
     user_data_base64 = var.user_data_base64
 
-    //SSM agent installed by default by Image Builder
-    systems_manager_agent {
-      uninstall_after_build = var.uninstall_systems_manager_agent_after_build
+    # //SSM agent installed by default by Image Builder
+    # systems_manager_agent {
+    #   uninstall_after_build = var.uninstall_systems_manager_agent_after_build
+    # }
+
+    # Conditionally include the systems_manager_agent block if not Windows
+    dynamic "systems_manager_agent" {
+      for_each = var.imagebuilder_component_platform != "Windows" ? [1] : []
+      content {
+        uninstall_after_build = var.uninstall_systems_manager_agent_after_build
+      }
     }
 
     tags = var.tags

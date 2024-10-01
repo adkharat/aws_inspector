@@ -65,3 +65,10 @@ variable "package_s3_bucket_name" {}
 # variable "package_s3_bucket_prefix" {}
 
 variable "ubuntu_imagebuilder_image_recipe_name" {}
+variable "amazon_linux_imagebuilder_image_recipe_name" {}
+variable "windows_imagebuilder_image_recipe_name" {}
+
+variable "imagebuilder_component_platform" {
+  type    = string
+  default = "Linux"  # Set default to Linux, adjust as needed
+}

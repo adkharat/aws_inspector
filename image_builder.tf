@@ -44,6 +44,7 @@ module "image_recipe_for_ubuntu" {
   uninstall_systems_manager_agent_after_build = false
   user_data_base64 = base64encode(file("./scripts/ubuntu_bootstrap.sh"))
   working_directory = "/tmp"
+  imagebuilder_component_platform = "Linux"
   kms_key_id = module.kms.arn
   tags = {
     "Name" = "image_recipe_for_ubuntu"
@@ -56,6 +57,7 @@ module "imagebuilder_infrastructure_configuration" {
     source = "./module/aws_imagebuilder_infrastructure_configuration"
     imagebuilder_infrastructure_configuration_name = "imagebuilder_ec2_infrastructure"
     imagebuilder_infrastructure_configuration_description = "imagebuilder_ec2_infrastructure"
+    imagebuilder_infrastructure_configuration_subnet_id = module.public_subnet.id
     imagebuilder_infrastructure_configuration_instance_profile_name = module.image_builder_infra_config_role_attachment_instance_profile.name
     imagebuilder_infrastructure_configuration_instance_types = ["t2.micro"]
     imagebuilder_infrastructure_configuration_security_group_ids = [module.ssh_sg.id, module.http_sg.id, module.https_sg.id]
@@ -72,11 +74,16 @@ module "ubuntu_distribution" {
 
   source = "./module/aws_imagebuilder_distribution_configuration"
   imagebuilder_distribution_configuration_name = "ubuntu-ami-dis-conf"
+  imagebuilder_distribution_configuration_description = "ubuntu-ami-dis-conf-discription"
   imagebuilder_distribution_ami_tag = {image = "ubuntu"}
   ami_distribution_name = "ubuntu-ami-dist"
   kms_key_id = module.kms.arn
   user_ids = local.account_id
-  region = "us-west-2"
+  target_account_ids = local.account_id
+  region = var.aws_region
+  tags = {
+      "Name" = "imagebuilder_ubuntu_distribution"
+  }
 }
 
 # module "imagebuilder_ubuntu_image" {
