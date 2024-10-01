@@ -60,7 +60,7 @@ module "amazon_distribution" {
   imagebuilder_distribution_configuration_description = "amazon-linux-ami-dis-conf-discription"
   imagebuilder_distribution_ami_tag = {image = "amazon-linux"}
   ami_distribution_name = "amazon-linux-ami-dist"
-  kms_key_id = module.kms.arn
+  # kms_key_id = module.kms.arn
   user_ids = local.account_id
   target_account_ids = local.account_id
   region = var.aws_region
