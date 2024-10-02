@@ -57,7 +57,7 @@ module "imagebuilder_infrastructure_configuration" {
     source = "./module/aws_imagebuilder_infrastructure_configuration"
     imagebuilder_infrastructure_configuration_name = "imagebuilder_ec2_infrastructure"
     imagebuilder_infrastructure_configuration_description = "imagebuilder_ec2_infrastructure"
-    imagebuilder_infrastructure_configuration_subnet_id = module.public_subnet.id
+    imagebuilder_infrastructure_configuration_subnet_id = module.private_subnet.id
     imagebuilder_infrastructure_configuration_instance_profile_name = module.image_builder_infra_config_role_attachment_instance_profile.name
     imagebuilder_infrastructure_configuration_instance_types = ["t2.micro"]
     imagebuilder_infrastructure_configuration_security_group_ids = [module.ssh_sg.id, module.http_sg.id, module.https_sg.id]
@@ -121,7 +121,7 @@ module "imagebuilder_ubuntu_image_pipeline" {
   workflow_arn = module.image_builder_workflow.arn
   imagebuilder_image_pipeline_infrastructure_configuration_arn = module.imagebuilder_infrastructure_configuration.arn
   imagebuilder_image_pipeline_status = "ENABLED"
-  imagebuilder_image_pipeline_schedule_expression = "cron(50 11 19 9 ? 2024)" //run every Friday at 8 AM. cron(0 8 ? * FRI *)
+  imagebuilder_image_pipeline_schedule_expression = "cron(0 10 * * ? *)" //Run daily at 10:00 AM
   magebuilder_image_pipeline_timezone = "UTC" //defaults to UTC //https://www.joda.org/joda-time/timezones.html
   imagebuilder_image_pipeline_pipeline_execution_start_condition = "EXPRESSION_MATCH_ONLY" //Possible values : EXPRESSION_MATCH_AND_DEPENDENCY_UPDATES_AVAILABLE and EXPRESSION_MATCH_ONLY
   imagebuilder_image_pipeline_image_tests_enabled = true

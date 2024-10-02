@@ -34,7 +34,7 @@ windows_server_ec2_delete_on_termination       = true
 windows_server_ec2_associate_public_ip_address = false
 windows_server_ec2_user_data = "inspectoragent_install.sh"
 
-ebs_kms_description = "kms key for EBS volume encryption"
+ebs_kms_description = "kms key for AMI encryption"
 ebs_kms_key_usage   = "ENCRYPT_DECRYPT"
 
 
