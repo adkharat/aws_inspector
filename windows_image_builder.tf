@@ -4,24 +4,24 @@ module "imagebuilder_component_for_windows" {
   source = "./module/aws_imagebuilder_component"
   imagebuilder_component_name = "imagebuilder_component_for_window_ami"
   imagebuilder_component_platform = "Windows"
-  # imagebuilder_component_uri = "s3://${module.package_s3_bucket.id}/${module.directory_for_window_package.key}" //key (yaml file) must be less than 64 KB
+  imagebuilder_component_uri = "s3://${module.package_s3_bucket.id}/${module.directory_for_window_package.key}" //key (yaml file) must be less than 64 KB
   imagebuilder_component_version = "1.0.0"
   supported_os_versions = ["Microsoft Windows Server 2022"]
   kms_key_id = module.kms.arn
-  imagebuilder_component_uri = yamlencode({
-    phases = [{
-      name = "build"
-      steps = [{
-        action = "ExecutePowerShell"
-        inputs = {
-          commands = ["Write-Output 'imagebuilder_component_windows'"]
-        }
-        name      = "imagebuilder_component"
-        onFailure = "Continue"
-      }]
-    }]
-    schemaVersion = 1.0
-  })
+  # imagebuilder_component_uri = yamlencode({
+  #   phases = [{
+  #     name = "build"
+  #     steps = [{
+  #       action = "ExecutePowerShell"
+  #       inputs = {
+  #         commands = ["Write-Output 'imagebuilder_component_windows'"]
+  #       }
+  #       name      = "imagebuilder_component"
+  #       onFailure = "Continue"
+  #     }]
+  #   }]
+  #   schemaVersion = 1.0
+  # })
 
   tags = {
     "Name" = "imagebuilder_component_for_windows"

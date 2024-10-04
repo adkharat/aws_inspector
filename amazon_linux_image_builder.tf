@@ -4,24 +4,24 @@ module "imagebuilder_component_for_amazon_linux" {
   source = "./module/aws_imagebuilder_component"
   imagebuilder_component_name = "imagebuilder_component_for_amazon_ami"
   imagebuilder_component_platform = "Linux"
-  # imagebuilder_component_uri = "s3://${module.package_s3_bucket.id}/${module.directory_for_amazon_ami_package.key}" //key (yaml file) must be less than 64 KB
+  imagebuilder_component_uri = "s3://${module.package_s3_bucket.id}/${module.directory_for_amazon_ami_package.key}" //key (yaml file) must be less than 64 KB
   imagebuilder_component_version = "1.0.0"
   supported_os_versions = ["Amazon Linux 2023"]
   kms_key_id = module.kms.arn
-  imagebuilder_component_uri = yamlencode({
-    phases = [{
-      name = "build"
-      steps = [{
-        action = "ExecuteBash"
-        inputs = {
-          commands = ["echo 'imagebuilder_component_amazon_linux'"]
-        }
-        name      = "imagebuilder_component"
-        onFailure = "Continue"
-      }]
-    }]
-    schemaVersion = 1.0
-  })
+  # imagebuilder_component_uri = yamlencode({
+  #   phases = [{
+  #     name = "build"
+  #     steps = [{
+  #       action = "ExecuteBash"
+  #       inputs = {
+  #         commands = ["echo 'imagebuilder_component_amazon_linux'"]
+  #       }
+  #       name      = "imagebuilder_component"
+  #       onFailure = "Continue"
+  #     }]
+  #   }]
+  #   schemaVersion = 1.0
+  # })
 
   tags = {
     "Name" = "imagebuilder_component_for_amazon_linux"
