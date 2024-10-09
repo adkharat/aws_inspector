@@ -1,10 +1,10 @@
 module "imagebuilder_component_for_ubuntu" {
-  depends_on = [ module.package_s3_bucket, module.directory_for_ubuntu_package, module.kms ]
+  depends_on = [ module.package_s3_bucket, module.component_for_ubuntu_package, module.kms ]
   
   source = "./module/aws_imagebuilder_component"
   imagebuilder_component_name = "imagebuilder_component_for_ubuntu"
   imagebuilder_component_platform = "Linux"
-  imagebuilder_component_uri = "s3://${module.package_s3_bucket.id}/${module.directory_for_ubuntu_package.key}" //key (yaml file) must be less than 64 KB
+  imagebuilder_component_uri = "s3://${module.package_s3_bucket.id}/${module.component_for_ubuntu_package.key}" //key (yaml file) must be less than 64 KB
   imagebuilder_component_version = "1.0.0"
   supported_os_versions = ["Ubuntu 22.04"]
   kms_key_id = module.kms.arn
@@ -51,24 +51,6 @@ module "image_recipe_for_ubuntu" {
   }
 }
 
-module "imagebuilder_infrastructure_configuration" {
-    depends_on = [ module.image_builder_infra_config_role_attachment_instance_profile, module.ssh_sg, module.http_sg, module.https_sg ]
-
-    source = "./module/aws_imagebuilder_infrastructure_configuration"
-    imagebuilder_infrastructure_configuration_name = "imagebuilder_ec2_infrastructure"
-    imagebuilder_infrastructure_configuration_description = "imagebuilder_ec2_infrastructure"
-    imagebuilder_infrastructure_configuration_subnet_id = module.private_subnet.id
-    imagebuilder_infrastructure_configuration_instance_profile_name = module.image_builder_infra_config_role_attachment_instance_profile.name
-    imagebuilder_infrastructure_configuration_instance_types = ["t2.micro"]
-    imagebuilder_infrastructure_configuration_security_group_ids = [module.ssh_sg.id, module.http_sg.id, module.https_sg.id]
-    imagebuilder_infrastructure_configuration_terminate_instance_on_failure = true
-    # imagebuilder_infrastructure_configuration_s3_logs = module.imagebuilder_ec2_infra_logs.id
-    # imagebuilder_infrastructure_configuration_s3_key_prefix = "logs"
-    tags = {
-      "Name" = "imagebuilder_infrastructure_configuration"
-  }
-}
-
 module "ubuntu_distribution" {
   depends_on = [ module.kms ]
 
@@ -94,19 +76,6 @@ module "ubuntu_distribution" {
 #   imagebuilder_image_image_recipe_arn = module.image_recipe_for_ubuntu.arn
 #   imagebuilder_image_infrastructure_configuration_arn = module.imagebuilder_infrastructure_configuration.arn
 # }
-
-module "image_builder_workflow" {
-  source = "./module/aws_imagebuilder_workflow"
-
-  workflow_name = "Workflow to test an image"
-  workflow_version = "1.0.0"
-  workflow_type = "TEST"
-  # workflow_data_file_path = "s3://ec2inspackagebucket2/ubuntu/workflow.yaml"
-  workflow_data_file_path = file("./workflow.yaml")
-  tags = {
-      "Name" = "aws_imagebuilder_workflow"
-  }
-}
 
 //run every Friday morning at 8 am UTC. Enabled testing of the image and setting a timeout of 60 minutes.
 module "imagebuilder_ubuntu_image_pipeline" {

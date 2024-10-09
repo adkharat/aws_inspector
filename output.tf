@@ -11,16 +11,16 @@ output "package_s3_bucket_domain_name" {
 }
 
 output "package_s3_bucket_ubuntu_id" {
-  value = module.directory_for_ubuntu_package.id
+  value = module.component_for_ubuntu_package.id
 }
 
 
 output "package_s3_bucket_ubuntu_key" {
-  value = module.directory_for_ubuntu_package.key
+  value = module.component_for_ubuntu_package.key
 }
 
 output "package_s3_bucket_ubuntu_metadata" {
-  value = module.directory_for_ubuntu_package.metadata
+  value = module.component_for_ubuntu_package.metadata
 }
 
 output "account_id" {

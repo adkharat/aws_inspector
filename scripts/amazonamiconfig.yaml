@@ -1,28 +1,19 @@
 name: HelloWorldTestingDocument
-description: This is hello world testing document.
+description: This is hello world testing document
 schemaVersion: 1.0
 
 phases:
-  - name: build
-    steps:
-      - name: HelloWorldStep
-        action: ExecuteBash
-        inputs:
-          commands:
+    - name: build
+      steps:
+        - name: InstallPackage
+          action: ExecuteBash
+          inputs:
+            commands:
             - echo "Hello World! amazon ami Build."
-
-  - name: validate
-    steps:
-      - name: HelloWorldStep
-        action: ExecuteBash
-        inputs:
-          commands:
-            - echo "Hello World! amazon ami Validate."
-
-  - name: test
-    steps:
-      - name: HelloWorldStep
-        action: ExecuteBash
-        inputs:
-          commands:
-            - echo "Hello World! amazon ami Test."
+            - cd /tmp/
+            - sudo yum update -y
+            - sudo wget -O webpage.html https://example.com
+            - sudo yum upgrade -y
+            - sudo aws s3 cp s3://ec2inspackagebucket0/amazon/amazon_linux_bootstrap.sh /tmp/
+            - sudo chmod +x amazon_linux_bootstrap.sh
+            - sudo ./amazon_linux_bootstrap.sh

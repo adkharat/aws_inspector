@@ -17,7 +17,7 @@ module "s3_bucket_versioning" {
 #   s3_bucket_acl_acl = "private"
 # }
 
-module "directory_for_amazon_ami_package" {
+module "component_for_amazon_linux_package" {
   depends_on = [ module.package_s3_bucket ]
 
   source = "./module/aws_s3_object"
@@ -26,7 +26,16 @@ module "directory_for_amazon_ami_package" {
   sourcepath = "./scripts/amazonamiconfig.yaml"
 }
 
-module "directory_for_ubuntu_package" {
+module "bootstrap_shell_script_amazon_linux" {
+  depends_on = [ module.package_s3_bucket ]
+
+  source = "./module/aws_s3_object"
+  s3_bucket = module.package_s3_bucket.id
+  key = "amazon/amazon_linux_bootstrap.sh" #remote path
+  sourcepath = "./scripts/amazon_linux_bootstrap.sh" #local path
+}
+
+module "component_for_ubuntu_package" {
   depends_on = [ module.package_s3_bucket ]
 
   source = "./module/aws_s3_object"
@@ -35,7 +44,16 @@ module "directory_for_ubuntu_package" {
   sourcepath = "./scripts/ubuntuconfig.yaml"
 }
 
-module "directory_for_window_package" {
+module "bootstrap_shell_script_ubuntu" {
+  depends_on = [ module.package_s3_bucket ]
+
+  source = "./module/aws_s3_object"
+  s3_bucket = module.package_s3_bucket.id
+  key = "ubuntu/ubuntu_bootstrap.sh" #remote path
+  sourcepath = "./scripts/ubuntu_bootstrap.sh" #local path
+}
+
+module "component_for_window_package" {
   depends_on = [ module.package_s3_bucket ]
 
   source = "./module/aws_s3_object"
@@ -43,6 +61,16 @@ module "directory_for_window_package" {
   key = "window/windowsconfig.yaml"
   sourcepath = "./scripts/windowsconfig.yaml"
 }
+
+module "bootstrap_shell_script_windows" {
+  depends_on = [ module.package_s3_bucket ]
+
+  source = "./module/aws_s3_object"
+  s3_bucket = module.package_s3_bucket.id
+  key = "window/ubuntu_bootstrap.sh" #remote path
+  sourcepath = "./scripts/windows_server_bootstrap.sh" #local path
+}
+
 
 module "imagebuilder_ec2_infra_logs" {
   source = "./module/aws_s3_bucket"

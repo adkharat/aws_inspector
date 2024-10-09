@@ -1,10 +1,10 @@
 module "imagebuilder_component_for_amazon_linux" {
-  depends_on = [ module.package_s3_bucket, module.directory_for_amazon_ami_package, module.kms ]
+  depends_on = [ module.package_s3_bucket, module.component_for_amazon_linux_package, module.kms ]
   
   source = "./module/aws_imagebuilder_component"
   imagebuilder_component_name = "imagebuilder_component_for_amazon_ami"
   imagebuilder_component_platform = "Linux"
-  imagebuilder_component_uri = "s3://${module.package_s3_bucket.id}/${module.directory_for_amazon_ami_package.key}" //key (yaml file) must be less than 64 KB
+  imagebuilder_component_uri = "s3://${module.package_s3_bucket.id}/${module.component_for_amazon_linux_package.key}" //key (yaml file) must be less than 64 KB
   imagebuilder_component_version = "1.0.0"
   supported_os_versions = ["Amazon Linux 2023"]
   kms_key_id = module.kms.arn
@@ -43,7 +43,7 @@ module "image_recipe_for_amazon_linux" {
   imagebuilder_image_recipe_component_arn = module.imagebuilder_component_for_amazon_linux.arn
   uninstall_systems_manager_agent_after_build = false
   user_data_base64 = base64encode(file("./scripts/amazon_linux_bootstrap.sh"))
-  working_directory = "/home/ec2-user"
+  working_directory = "tmp/"
   kms_key_id = module.kms.arn
   imagebuilder_component_platform = "Linux"
   tags = {
