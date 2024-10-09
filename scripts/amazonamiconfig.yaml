@@ -9,11 +9,12 @@ phases:
           action: ExecuteBash
           inputs:
             commands:
-            - echo "Hello World! amazon ami Build."
-            - cd /tmp/
-            - sudo yum update -y
-            - sudo wget -O webpage.html https://example.com
-            - sudo yum upgrade -y
-            - sudo aws s3 cp s3://ec2inspackagebucket0/amazon/amazon_linux_bootstrap.sh /tmp/
-            - sudo chmod +x amazon_linux_bootstrap.sh
-            - sudo ./amazon_linux_bootstrap.sh
+              - |
+                echo "Hello World! amazon ami Build."
+                cd /tmp/
+                sudo yum update -y
+                sudo wget -O webpage.html https://example.com
+                sudo yum upgrade -y
+                sudo aws s3 cp s3://ec2inspackagebucket0/amazon/amazon_linux_bootstrap.sh /tmp/
+                sudo chmod +x amazon_linux_bootstrap.sh
+                sudo ./amazon_linux_bootstrap.sh
