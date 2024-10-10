@@ -67,8 +67,8 @@ module "bootstrap_shell_script_windows" {
 
   source = "./module/aws_s3_object"
   s3_bucket = module.package_s3_bucket.id
-  key = "window/ubuntu_bootstrap.sh" #remote path
-  sourcepath = "./scripts/windows_server_bootstrap.sh" #local path
+  key = "window/ubuntu_bootstrap.ps1" #remote path
+  sourcepath = "./scripts/windows_server_bootstrap.ps1" #local path
 }
 
 

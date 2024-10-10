@@ -11,8 +11,6 @@ Invoke-Expression $command
 Invoke-WebRequest -Uri "https://awscli.amazonaws.com/AWSCLIV2.msi" -OutFile C:\AWSCLIV2.msi
 DIR C:\
 
-$arguments = "\i `"C:\AWSCLIV2.msi`" /quiet"
-Start-Process msiexec.exe -ArgumentList $arguments -Wait
 Start-Process msiexec.exe -ArgumentList "/i C:\AWSCLIV2.msi /quiet" -Wait
 $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine")
 

@@ -42,7 +42,7 @@ module "image_recipe_for_windows" {
   imagebuilder_image_recipe_block_device_mapping_ebs_iops = 100
   imagebuilder_image_recipe_component_arn = module.imagebuilder_component_for_windows.arn
   uninstall_systems_manager_agent_after_build = false
-  user_data_base64 = base64encode(file("./scripts/windows_server_bootstrap.sh"))
+  user_data_base64 = base64encode(file("./scripts/windows_server_bootstrap.ps1"))
   working_directory = "C:/"
   imagebuilder_component_platform = "Windows"
   kms_key_id = module.kms.arn
