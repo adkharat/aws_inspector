@@ -1,0 +1,31 @@
+Subject: Issue with AWS Image Builder Component Execution
+
+Description:
+
+Dear AWS Support Team,
+
+I am experiencing an issue with an AWS Image Builder component in our AWS account (Account ID: <your-account-id>). We have created a component named imagebuilder_component_for_ubuntu within our lab-cicd environment. The component is configured to execute shell commands for downloading a script file from an S3 bucket and performing additional configuration steps. However, the commands are not executing as expected.
+
+Details:
+AWS Account ID: <your-account-id>
+Region: <your-region>
+Component Name: imagebuilder_component_for_ubuntu
+Image Pipeline Name: <pipeline-name-if-any>
+S3 Bucket Name: <bucket-name>
+Shell Commands: Commands include downloading a file using AWS CLI, installing necessary packages, and configuring services.
+Steps Taken:
+Verified that the shell commands execute correctly when run manually on an EC2 instance with the same AMI.
+Confirmed that the IAM role attached to the pipeline has the necessary permissions for S3 access and EC2 instance management.
+Enabled logging but did not observe any detailed error messages indicating the source of the issue.
+Request:
+Could you please assist in identifying the reason why the commands are not executing as intended within the Image Builder component? Additionally, if any configuration changes or best practices are recommended for executing commands during the build process, please advise.
+
+Thank you for your assistance.
+
+Best regards,
+Aman
+Role: Site Reliability Engineer
+Company: [Your Company Name, if applicable]
+AWS Account ID: <your-account-id>
+Contact Email: <your-email>
+
