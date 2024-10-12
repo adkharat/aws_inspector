@@ -18,6 +18,7 @@ module "kms" {
     ]
   }
   )
+  multi_region = true
 }
 
 module "kms_alias" {

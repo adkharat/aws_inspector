@@ -59,7 +59,7 @@ https_sg_security_group_ingress_from_port   = 443
 ssm_role_name = "ssm_rol_for_ec2"
 image_builder_infra_config_role_name = "image_builder_infra_config_role"
 ssm_iam_instance_profile_name = "ssm_iam_instance_profile"
-image_builder_infra_config_iam_policy_arn = ["arn:aws:iam::aws:policy/EC2InstanceProfileForImageBuilder", "arn:aws:iam::aws:policy/EC2InstanceProfileForImageBuilderECRContainerBuilds", "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"]
+image_builder_infra_config_iam_policy_arn = ["arn:aws:iam::aws:policy/EC2InstanceProfileForImageBuilder", "arn:aws:iam::aws:policy/EC2InstanceProfileForImageBuilderECRContainerBuilds", "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore", "arn:aws:iam::aws:policy/AmazonS3FullAccess"]
 
 package_s3_bucket_name = "ec2inspackagebucket0"
 # package_s3_bucket_prefix = "ubuntu" 
@@ -67,3 +67,6 @@ package_s3_bucket_name = "ec2inspackagebucket0"
 ubuntu_imagebuilder_image_recipe_name = "ubuntu_receipe"
 amazon_linux_imagebuilder_image_recipe_name = "amazon_linux_receipe"
 windows_imagebuilder_image_recipe_name = "window_server_receipe"
+
+email_address = "shaikamanulla881@gmail.com"
+lambda_function_name = "handles3uploadevent"

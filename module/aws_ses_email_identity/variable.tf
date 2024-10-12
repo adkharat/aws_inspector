@@ -1,0 +1,1 @@
+variable "ses_email" {}

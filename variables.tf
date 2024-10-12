@@ -72,3 +72,6 @@ variable "imagebuilder_component_platform" {
   type    = string
   default = "Linux"  # Set default to Linux, adjust as needed
 }
+
+variable "email_address" {}
+variable "lambda_function_name" {}

@@ -1,0 +1,32 @@
+{
+    "Version": "2012-10-17",
+    "Id": "sns-policy",
+    "Statement": [
+        {
+            "Sid": "Example SNS topic policy",
+            "Effect": "Allow",
+            "Principal": {
+                "Service": "s3.amazonaws.com"
+            },
+            "Action": [
+                "SNS:GetTopicAttributes",
+                "SNS:SetTopicAttributes",
+                "SNS:AddPermission",
+                "SNS:RemovePermission",
+                "SNS:DeleteTopic",
+                "SNS:Subscribe",
+                "SNS:ListSubscriptionsByTopic",
+                "SNS:Publish"
+            ],
+            "Resource": "${module.sns_topic.arn}",
+            "Condition": {
+                "ArnLike": {
+                    "aws:SourceArn": "${module.inspectorscaningfile.arn}"
+                },
+                "StringEquals": {
+                    "aws:SourceAccount": "${data.aws_caller_identity.current.account_id}"
+                }
+            }
+        }
+    ]
+}

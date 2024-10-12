@@ -3,26 +3,19 @@ description: This is hello world testing document.
 schemaVersion: 1.0
 
 phases:
-  - name: build
+  - name: 'build'
     steps:
-      - name: HelloWorldStep
+      - name: DownloadScript
+        action: S3Download
+        timeoutSeconds: 60
+        onFailure: Continue
+        maxAttempts: 10
+        inputs:
+          - source: 's3://ec2inspackagebucket0/ubuntu/ubuntu_bootstrap.sh'
+            destination: '/tmp/configureEC2.sh'
+      - name: VerifyFileDownload
         action: ExecuteBash
         inputs:
           commands:
-            - echo "Hello World! Ubuntu Build."
-
-  - name: validate
-    steps:
-      - name: HelloWorldStep
-        action: ExecuteBash
-        inputs:
-          commands:
-            - echo "Hello World! ubuntu Validate."
-
-  - name: test
-    steps:
-      - name: HelloWorldStep
-        action: ExecuteBash
-        inputs:
-          commands:
-            - echo "Hello World! Ubuntu Test."
+            - ls -l /tmp/
+            - cat /tmp/configureEC2.sh || echo "File not found or unreadable"

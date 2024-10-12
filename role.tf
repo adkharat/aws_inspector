@@ -117,3 +117,32 @@ module "cross_account_kms_iam_policy_attachment" {
     iam_policy_arn = module.cross_account_kms_iam_policy.arn
 }
 
+module "ses_full_access_role" {
+  source = "./module/aws_iam_role"
+  iam_role_name = "sesFullAccessRole"
+  iam_role_trust_policy = file("./ses_role_trust_entity.json")
+}
+
+module "lambda_logging_policy" {
+  source = "./module/aws_iam_policy"
+  iam_policy_name = "lambda_logs"
+  iam_policy_description = "IAM policy for logging from a lambda"
+  iam_policy_json_file_path = file("./lambda_logging.json")
+}
+
+module "ses_full_access_role_policy_attachment" {
+    depends_on = [ module.ses_full_access_role ]
+
+    source = "./module/aws_iam_role_policy_attachment"
+    iam_role_name = module.ses_full_access_role.name
+    iam_policy_arn = "arn:aws:iam::aws:policy/AmazonSESFullAccess" //AWS managed policy
+}
+
+module "ses_lambda_logging_policy_attachment" {
+
+    depends_on = [ module.ses_full_access_role, module.lambda_logging_policy ]
+
+    source = "./module/aws_iam_role_policy_attachment"
+    iam_role_name = module.ses_full_access_role.name
+    iam_policy_arn = module.lambda_logging_policy.arn
+}
