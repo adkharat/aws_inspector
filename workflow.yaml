@@ -8,29 +8,35 @@ parameters:
     type: boolean
 
 steps:
-  - name: LaunchTestInstance
+  - name: LaunchBuildInstance
     action: LaunchInstance
     onFailure: Continue
     inputs: 
       waitFor: "ssmAgent"
 
+  - name: ApplyBuildComponents
+    action: ExecuteComponents
+    onFailure: Continue
+    inputs:
+      instanceId.$: "$.stepOutputs.LaunchBuildInstance.instanceId"
+
   - name: CollectFindingsStep
     action: CollectImageScanFindings
     onFailure: Abort
     inputs:
-        instanceId.$: "$.stepOutputs.LaunchTestInstance.instanceId"
+        instanceId.$: "$.stepOutputs.LaunchBuildInstance.instanceId"
 
   - name: CreateImageFromInstance
     action: CreateImage
     onFailure: Abort
     inputs:
-      instanceId.$: "$.stepOutputs.LaunchTestInstance.instanceId"
+      instanceId.$: "$.stepOutputs.LaunchBuildInstance.instanceId"
 
   - name: TerminateTestInstance
     action: TerminateInstance
     onFailure: Continue
     inputs:
-      instanceId.$: "$.stepOutputs.LaunchTestInstance.instanceId"
+      instanceId.$: "$.stepOutputs.LaunchBuildInstance.instanceId"
 
   - name: WaitForActionAtEnd
     action: WaitForAction

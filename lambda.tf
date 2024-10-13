@@ -17,14 +17,14 @@ resource "aws_cloudwatch_log_group" "example" {
   retention_in_days = 14
 }
 
-module "s3_bucket_notification" {
-  depends_on = [ module.inspectorscaningfile, module.lambda_function ]
-  source = "./module/aws_s3_bucket_notification"
-  s3bucket_id = module.inspectorscaningfile.id
-  events = ["s3:ObjectCreated:*"] 
-  filter_suffix = ".csv"
-  lambda_function_arn = module.lambda_function.arn
-}
+# module "s3_bucket_notification" {
+#   depends_on = [ module.inspectorscaningfile, module.lambda_function ]
+#   source = "./module/aws_s3_bucket_notification"
+#   s3bucket_id = module.inspectorscaningfile.id
+#   events = ["s3:ObjectCreated:*"] 
+#   filter_suffix = ".csv"
+#   lambda_function_arn = module.lambda_function.arn
+# }
 
 module "ses" {
   source = "./module/aws_ses_email_identity"
