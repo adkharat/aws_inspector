@@ -55,3 +55,35 @@ output "az_1" {
 output "nat_gateway_public_ip" {
   value = module.elastic_ip.public_ip
 }
+
+output "kms_key_id" {
+  value = module.kms.key_id
+}
+
+output "kms_id" {
+  value = module.kms.id
+}
+
+output "kms_arn" {
+  value = module.kms.arn
+}
+
+output "kms_alias_name" {
+  value = module.kms_alias.kms_alias_name
+}
+
+output "kms_alias_name_prefix" {
+  value = module.kms_alias.kms_alias_name_prefix
+}
+
+output "kms_alias_target_key_id" {
+  value = module.kms_alias.target_key_id
+}
+
+output "kms_alias_arn" {
+  value = module.kms_alias.kms_alias_arn
+}
+
+output "kms_alias_id" {
+  value = module.kms_alias.kms_alias_id
+}

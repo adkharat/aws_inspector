@@ -9,7 +9,7 @@ resource "aws_imagebuilder_distribution_configuration" "imagebuilder_distributio
         launch_permission {
           user_ids = var.user_ids
         }
-        # kms_key_id = var.kms_key_id
+        kms_key_id = var.kms_key_id
         target_account_ids = var.target_account_ids
       }
 

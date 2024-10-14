@@ -63,7 +63,7 @@ module "image_builder_infra_config_role_attachment_instance_profile" {
 }
 
 
-/*Image Builder workflow service role*/
+/*PIPELINE---Image Builder workflow service role*/
 
 module "aws_service_role_for_image_builder_role" {
   source = "./module/aws_iam_role"
@@ -78,7 +78,15 @@ module "iam_policy" {
   iam_policy_json_file_path = file("./AWSServiceRoleForImageBuilderPolicy.json")
 }
 
-module "aws_service_role_for_image_builder_policyxx" {
+module "image_builder_cross_account_distribution_access_policy_attachment" {
+    depends_on = [ module.aws_service_role_for_image_builder_role ]
+
+    source = "./module/aws_iam_role_policy_attachment"
+    iam_role_name = module.aws_service_role_for_image_builder_role.name
+    iam_policy_arn = "arn:aws:iam::aws:policy/Ec2ImageBuilderCrossAccountDistributionAccess" //AWS managed policy
+}
+
+module "aws_service_role_for_image_builder_policy" {
     depends_on = [ module.aws_service_role_for_image_builder_role, module.iam_policy ]
 
     source = "./module/aws_iam_role_policy_attachment"

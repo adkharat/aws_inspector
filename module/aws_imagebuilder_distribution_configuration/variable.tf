@@ -3,7 +3,7 @@ variable "imagebuilder_distribution_configuration_description" {}
 variable "imagebuilder_distribution_ami_tag" {}
 variable "ami_distribution_name" {}
 variable "target_account_ids" {}
-# variable "kms_key_id" {}
+variable "kms_key_id" {}
 variable "user_ids" {}
 variable "region" {}
 variable "tags" {}

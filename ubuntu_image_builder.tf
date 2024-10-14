@@ -7,7 +7,7 @@ module "imagebuilder_component_for_ubuntu" {
   imagebuilder_component_uri = "s3://${module.package_s3_bucket.id}/${module.component_for_ubuntu_package.key}" //key (yaml file) must be less than 64 KB
   imagebuilder_component_version = "1.0.0"
   supported_os_versions = ["Ubuntu 22.04"]
-  kms_key_id = module.kms.arn
+  kms_key_id = module.kms_alias.kms_alias_arn
   # imagebuilder_component_uri = yamlencode({
   #   phases = [{
   #     name = "build"
@@ -44,8 +44,9 @@ module "image_recipe_for_ubuntu" {
   uninstall_systems_manager_agent_after_build = false
   user_data_base64 = base64encode(file("./scripts/ubuntu_bootstrap.sh"))
   working_directory = "/tmp"
+  encrypted = true
   imagebuilder_component_platform = "Linux"
-  kms_key_id = module.kms.arn
+  kms_key_id = module.kms_alias.kms_alias_name
   tags = {
     "Name" = "image_recipe_for_ubuntu"
   }
@@ -59,10 +60,13 @@ module "ubuntu_distribution" {
   imagebuilder_distribution_configuration_description = "ubuntu-ami-dis-conf-discription"
   imagebuilder_distribution_ami_tag = {image = "ubuntu"}
   ami_distribution_name = "ubuntu-ami-dist"
-  # kms_key_id = module.kms.arn
-  user_ids = local.account_id
-  target_account_ids = local.account_id
-  region = var.aws_region
+  kms_key_id = module.kms_alias.kms_alias_arn
+  user_ids = ["211125510693","602304653960"]
+  target_account_ids = ["211125510693", "602304653960"]
+  # user_ids = ["602304653960"]
+  # target_account_ids = [ "602304653960"]
+  
+  region = "us-east-1"
   tags = {
       "Name" = "imagebuilder_ubuntu_distribution"
   }

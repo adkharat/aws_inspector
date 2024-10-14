@@ -15,4 +15,5 @@ variable "user_data_base64" {}
 variable "working_directory" {}
 variable "kms_key_id" {}
 variable "tags" {}
+variable "encrypted" {}
 variable "imagebuilder_component_platform" {}

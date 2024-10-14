@@ -18,10 +18,10 @@ resource "aws_imagebuilder_image_pipeline" "imagebuilder_image_pipeline" {
 
     workflow {
       workflow_arn = var.workflow_arn
-      parameter {
-        name = "waitForActionAtEnd"
-        value = false
-      }
+      # parameter {
+      #   name = "waitForActionAtEnd"
+      #   value = false
+      # }
     }
 
     image_scanning_configuration {

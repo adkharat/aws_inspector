@@ -3,9 +3,10 @@ module "image_builder_workflow" {
 
   workflow_name = "Workflow to test an image"
   workflow_version = "1.0.0"
-  workflow_type = "TEST"
+  workflow_type = "BUILD"
   # workflow_data_file_path = "s3://ec2inspackagebucket2/ubuntu/workflow.yaml"
   workflow_data_file_path = file("./workflow.yaml")
+  kms_key_id = module.kms_alias.kms_alias_arn
   tags = {
       "Name" = "aws_imagebuilder_workflow"
   }

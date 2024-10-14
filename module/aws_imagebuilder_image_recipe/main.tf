@@ -25,7 +25,7 @@ resource "aws_imagebuilder_image_recipe" "imagebuilder_image_recipe" {
         iops = var.imagebuilder_image_recipe_block_device_mapping_ebs_iops
         kms_key_id = var.kms_key_id
         # throughput = var.imagebuilder_image_recipe_block_device_mapping_ebs_throughput // For GP3 volumes only
-        # encrypted             = true
+        encrypted             = var.encrypted
         # kms_key_id            = "alias/aws/ebs"
       }
     }
