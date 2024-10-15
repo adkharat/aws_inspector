@@ -1,0 +1,28 @@
+name: test-image
+description: Workflow to test an AMI
+schemaVersion: 1.0
+
+steps:
+  - name: LaunchTestInstance
+    action: LaunchInstance
+    onFailure: Abort
+    inputs:
+      waitFor: "ssmAgent"
+
+  - name: ApplyTestComponents
+    action: ExecuteComponents
+    onFailure: Abort
+    inputs:
+      instanceId.$: "$.stepOutputs.LaunchTestInstance.instanceId"
+
+  - name: CollectImageScanFindings
+    action: CollectImageScanFindings
+    onFailure: Continue
+    inputs:
+      instanceId.$: "$.stepOutputs.LaunchTestInstance.instanceId"
+
+  - name: TerminateTestInstance
+    action: TerminateInstance
+    onFailure: Continue
+    inputs:
+      instanceId.$: "$.stepOutputs.LaunchTestInstance.instanceId"

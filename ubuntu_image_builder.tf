@@ -35,7 +35,7 @@ module "image_recipe_for_ubuntu" {
   imagebuilder_image_recipe_name = var.ubuntu_imagebuilder_image_recipe_name
   imagebuilder_image_recipe_version = "1.0.0"
   imagebuilder_image_recipe_parent_image = "ami-0a0e5d9c7acc336f1"
-  imagebuilder_image_recipe_block_device_mapping_device_name = "/dev/xvdb" //  /dev/sda or /dev/xvdb.
+  imagebuilder_image_recipe_block_device_mapping_device_name = "/dev/sda1" //  /dev/sda or /dev/xvdb.
   imagebuilder_image_recipe_block_device_mapping_ebs_delete_on_termination = true
   imagebuilder_image_recipe_block_device_mapping_ebs_volume_size = 10
   imagebuilder_image_recipe_block_device_mapping_ebs_volume_type = "io1" // gp2 or io2.
