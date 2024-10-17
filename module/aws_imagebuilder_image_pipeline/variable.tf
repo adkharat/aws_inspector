@@ -10,6 +10,7 @@ variable "imagebuilder_image_pipeline_timeout_minutes" {}
 variable "magebuilder_image_pipeline_timezone" {}
 variable "image_scanning_enabled" {}
 variable "distribution_configuration_arn" {}
-variable "workflow_arn" {}
+variable "build_workflow_arn" {}
+variable "test_workflow_arn" {}
 variable "execution_role_to_execute_workflow" {}
 variable "tags" {}

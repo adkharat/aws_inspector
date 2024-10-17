@@ -16,12 +16,18 @@ resource "aws_imagebuilder_image_pipeline" "imagebuilder_image_pipeline" {
 
     execution_role = var.execution_role_to_execute_workflow //AWS managed role/policy AWSServiceRoleForImageBuilder
 
+    #build workflow
     workflow {
-      workflow_arn = var.workflow_arn
+      workflow_arn = var.build_workflow_arn
       # parameter {
       #   name = "waitForActionAtEnd"
       #   value = false
       # }
+    }
+
+    # test workflow
+    workflow {
+      workflow_arn = var.test_workflow_arn
     }
 
     image_scanning_configuration {
