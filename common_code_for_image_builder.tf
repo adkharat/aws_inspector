@@ -1,4 +1,4 @@
-module "image_builder_workflow" {
+module "image_builder_build_workflow" {
   source = "./module/aws_imagebuilder_workflow"
 
   workflow_name = "Workflow to build an image"
@@ -8,7 +8,21 @@ module "image_builder_workflow" {
   workflow_data_file_path = file("./buildworkflow.yaml") #buildworkflow.yaml
   kms_key_id = module.kms_alias.kms_alias_arn
   tags = {
-      "Name" = "aws_imagebuilder_workflow"
+      "Name" = "aws_imagebuilder_build_workflow"
+  }
+}
+
+module "image_builder_test_workflow" {
+  source = "./module/aws_imagebuilder_workflow"
+
+  workflow_name = "Workflow to test an image"
+  workflow_version = "1.0.0"
+  workflow_type = "TEST" #BUILD, TEST
+  # workflow_data_file_path = "s3://ec2inspackagebucket2/ubuntu/workflow.yaml"
+  workflow_data_file_path = file("./testworkflow.yaml") #buildworkflow.yaml
+  kms_key_id = module.kms_alias.kms_alias_arn
+  tags = {
+      "Name" = "aws_imagebuilder_test_workflow"
   }
 }
 

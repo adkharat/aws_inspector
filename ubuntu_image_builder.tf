@@ -83,7 +83,7 @@ module "ubuntu_distribution" {
 
 //run every Friday morning at 8 am UTC. Enabled testing of the image and setting a timeout of 60 minutes.
 module "imagebuilder_ubuntu_image_pipeline" {
-  depends_on = [ module.image_recipe_for_ubuntu, module.imagebuilder_infrastructure_configuration, module.ubuntu_distribution, module.image_builder_workflow, module.inspector2_enabler]
+  depends_on = [ module.image_recipe_for_ubuntu, module.imagebuilder_infrastructure_configuration, module.ubuntu_distribution, module.image_builder_build_workflow, module.inspector2_enabler]
 
   source = "./module/aws_imagebuilder_image_pipeline"
   imagebuilder_image_pipeline_name = "ubuntu_image_pipeline"
@@ -91,7 +91,7 @@ module "imagebuilder_ubuntu_image_pipeline" {
   imagebuilder_image_pipeline_image_recipe_arn = module.image_recipe_for_ubuntu.arn
   distribution_configuration_arn = module.ubuntu_distribution.arn
   execution_role_to_execute_workflow = module.aws_service_role_for_image_builder_role.arn //AWS managed role AWSServiceRoleForImageBuilder
-  workflow_arn = module.image_builder_workflow.arn
+  workflow_arn = module.image_builder_build_workflow.arn
   imagebuilder_image_pipeline_infrastructure_configuration_arn = module.imagebuilder_infrastructure_configuration.arn
   imagebuilder_image_pipeline_status = "ENABLED"
   imagebuilder_image_pipeline_schedule_expression = "cron(0 10 * * ? *)" //Run daily at 10:00 AM
