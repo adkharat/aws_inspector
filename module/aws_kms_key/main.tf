@@ -4,4 +4,5 @@ resource "aws_kms_key" "aws_kms_key"{
     key_usage = var.kms_key_key_usage
     policy = var.aws_kms_key_policy
     multi_region = var.multi_region
+    enable_key_rotation = var.enable_key_rotation
 }

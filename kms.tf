@@ -2,6 +2,7 @@ module "kms" {
   source              = "./module/aws_kms_key"
   kms_key_description = var.ebs_kms_description
   kms_key_key_usage   = var.ebs_kms_key_usage
+  enable_key_rotation = true
   aws_kms_key_policy = jsonencode({
     "Id": "key-consolepolicy-3",
     "Version": "2012-10-17",
