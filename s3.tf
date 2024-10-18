@@ -77,3 +77,11 @@ module "inspectorscaningfile" {
   s3_bucket_name = "inspectorscaningfile"
 #   s3_bucket_prefix = var.package_s3_bucket_prefix
 }
+
+
+module "golden_s3_bucket_logging" {
+  source = "./module/aws_s3_bucket_logging"
+  source_bucket_id = module.package_s3_bucket.id
+  target_bucket_id = module.package_s3_bucket.id
+  target_prefix = "log/"
+}
