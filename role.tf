@@ -154,3 +154,26 @@ module "ses_lambda_logging_policy_attachment" {
     iam_role_name = module.ses_full_access_role.name
     iam_policy_arn = module.lambda_logging_policy.arn
 }
+
+//VPC Flow Logs role and Policy
+module "golden_vpc_flow_log_role" {
+  source = "./module/aws_iam_role"
+  iam_role_name = "golden_vpc_flow_log_role"
+  iam_role_trust_policy = file("./vpc_flow_logs.json")
+}
+
+module "logs_policy" {
+  source = "./module/aws_iam_policy"
+  iam_policy_name = "flow_logs_policy"
+  iam_policy_description = "flow_logs_policy"
+  iam_policy_json_file_path = file("./flow_logs.json")
+}
+
+module "logs_policy_and_role_attachment" {
+
+    depends_on = [ module.golden_vpc_flow_log_role, module.logs_policy ]
+
+    source = "./module/aws_iam_role_policy_attachment"
+    iam_role_name = module.golden_vpc_flow_log_role.name
+    iam_policy_arn = module.logs_policy.arn
+}

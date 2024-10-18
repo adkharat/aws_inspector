@@ -132,3 +132,23 @@ module "vpc_endpoint" {
      "Name" = "golden_image_vpc_endpoint"
   }
 }
+
+module "golden_vpc_cloudwatch_log_group" {
+  source = "./module/aws_cloudwatch_log_group"
+  cloudwatch_log_group_name = "golden_vpc_cloudwatch_log_group"
+  tags = {
+    Name = "golden_vpc_cloudwatch_log_group"
+  }
+}
+
+module "golden_vpc_flow_log" {
+  source = "./module/aws_flow_log"
+
+  depends_on = [ module.vpc, module.golden_vpc_cloudwatch_log_group, module.golden_vpc_flow_log_role ]
+  vpc_id = module.vpc.id
+  log_destination_arn = module.golden_vpc_cloudwatch_log_group.arn
+  iam_role_arn = module.golden_vpc_flow_log_role.arn
+  tags = {
+    Name = "golden_vpc_cloudwatch_log"
+  }
+}
