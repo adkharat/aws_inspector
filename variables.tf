@@ -70,7 +70,7 @@ variable "windows_imagebuilder_image_recipe_name" {}
 
 variable "imagebuilder_component_platform" {
   type    = string
-  default = "Linux"  # Set default to Linux, adjust as needed
+  default = "Linux" # Set default to Linux, adjust as needed
 }
 
 variable "email_address" {}

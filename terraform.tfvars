@@ -10,7 +10,7 @@ amazon_ami_ec2_root_block_device_iops      = 100   //Replace with 15000
 amazon_ami_ec2_root_block_device_encrypted = true
 amazon_ami_ec2_delete_on_termination       = true
 amazon_ami_ec2_associate_public_ip_address = false
-amazon_ami_ec2_user_data = "inspectoragent_install.sh"
+amazon_ami_ec2_user_data                   = "inspectoragent_install.sh"
 
 ubuntu_server_ec2_ami_name                    = "ami-0e86e20dae9224db8" //Replace AMI value as per your region (Ubuntu Server 24.04 LTS) ? 
 ubuntu_server_ec2_instance_type               = "t2.micro"              //Replace with c5n.4xlarge
@@ -21,7 +21,7 @@ ubuntu_server_ec2_root_block_device_iops      = 100   //Replace with 15000
 ubuntu_server_ec2_root_block_device_encrypted = true
 ubuntu_server_ec2_delete_on_termination       = true
 ubuntu_server_ec2_associate_public_ip_address = false
-ubuntu_server_ec2_user_data = "inspectoragent_install.sh"
+ubuntu_server_ec2_user_data                   = "inspectoragent_install.sh"
 
 windows_server_ec2_ami_name                    = "ami-07cc1bbe145f35b58"              //Replace AMI value as per your region (Windows Server 2023) ? 
 windows_server_ec2_instance_type               = "t2.micro"                           //Replace with c5n.4xlarge
@@ -32,7 +32,7 @@ windows_server_ec2_root_block_device_iops      = 100                            
 windows_server_ec2_root_block_device_encrypted = true
 windows_server_ec2_delete_on_termination       = true
 windows_server_ec2_associate_public_ip_address = false
-windows_server_ec2_user_data = "inspectoragent_install.sh"
+windows_server_ec2_user_data                   = "inspectoragent_install.sh"
 
 ebs_kms_description = "kms key for AMI encryption"
 ebs_kms_key_usage   = "ENCRYPT_DECRYPT"
@@ -56,17 +56,17 @@ https_sg_security_group_ingress_description = "Inbound http sg"
 https_sg_security_group_ingress_to_port     = 443
 https_sg_security_group_ingress_from_port   = 443
 
-ssm_role_name = "ssm_rol_for_ec2"
-image_builder_infra_config_role_name = "image_builder_infra_config_role"
-ssm_iam_instance_profile_name = "ssm_iam_instance_profile"
+ssm_role_name                             = "ssm_rol_for_ec2"
+image_builder_infra_config_role_name      = "image_builder_infra_config_role"
+ssm_iam_instance_profile_name             = "ssm_iam_instance_profile"
 image_builder_infra_config_iam_policy_arn = ["arn:aws:iam::aws:policy/EC2InstanceProfileForImageBuilder", "arn:aws:iam::aws:policy/EC2InstanceProfileForImageBuilderECRContainerBuilds", "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore", "arn:aws:iam::aws:policy/AmazonS3FullAccess"]
 
 package_s3_bucket_name = "ec2inspackagebucket0"
 # package_s3_bucket_prefix = "ubuntu" 
 
-ubuntu_imagebuilder_image_recipe_name = "ubuntu_receipe"
+ubuntu_imagebuilder_image_recipe_name       = "ubuntu_receipe"
 amazon_linux_imagebuilder_image_recipe_name = "amazon_linux_receipe"
-windows_imagebuilder_image_recipe_name = "window_server_receipe"
+windows_imagebuilder_image_recipe_name      = "window_server_receipe"
 
-email_address = "shaikamanulla881@gmail.com"
+email_address        = "shaikamanulla881@gmail.com"
 lambda_function_name = "handles3uploadevent"

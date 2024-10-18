@@ -9,7 +9,10 @@ resource "aws_security_group" "security_group" {
     from_port   = var.security_group_ingress_from_port
     to_port     = var.security_group_ingress_to_port
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = (
+      var.security_group_ingress_from_port >= 443 && var.security_group_ingress_to_port <= 445 ||
+      var.security_group_ingress_from_port >= 1020 && var.security_group_ingress_to_port <= 1025
+    ) ? ["0.0.0.0/0"] : [] # Empty list if the port is not authorized for 0.0.0.0/0
   }
 
   egress {
@@ -19,4 +22,5 @@ resource "aws_security_group" "security_group" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
+  tags = var.tags
 }

@@ -1,5 +1,5 @@
 locals {
-  inspector_status = "disabled"   # "command to check if enabled" # Placeholder, replace with actual command output
+  inspector_status = "disabled" # "command to check if enabled" # Placeholder, replace with actual command output
 }
 
 module "inspector2_enabler" {

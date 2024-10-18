@@ -1,13 +1,13 @@
 module "package_s3_bucket" {
-  source = "./module/aws_s3_bucket"
+  source         = "./module/aws_s3_bucket"
   s3_bucket_name = var.package_s3_bucket_name
-#   s3_bucket_prefix = var.package_s3_bucket_prefix
+  #   s3_bucket_prefix = var.package_s3_bucket_prefix
 }
 
 module "s3_bucket_versioning" {
-  depends_on = [ module.package_s3_bucket ]
+  depends_on = [module.package_s3_bucket]
 
-  source = "./module/aws_s3_bucket_versioning"
+  source         = "./module/aws_s3_bucket_versioning"
   s3_bucket_name = module.package_s3_bucket.id
 }
 
@@ -18,70 +18,70 @@ module "s3_bucket_versioning" {
 # }
 
 module "component_for_amazon_linux_package" {
-  depends_on = [ module.package_s3_bucket ]
+  depends_on = [module.package_s3_bucket]
 
-  source = "./module/aws_s3_object"
-  s3_bucket = module.package_s3_bucket.id
-  key = "amazon/amazonamiconfig.yaml"
+  source     = "./module/aws_s3_object"
+  s3_bucket  = module.package_s3_bucket.id
+  key        = "amazon/amazonamiconfig.yaml"
   sourcepath = "./scripts/amazonamiconfig.yaml"
 }
 
 module "bootstrap_shell_script_amazon_linux" {
-  depends_on = [ module.package_s3_bucket ]
+  depends_on = [module.package_s3_bucket]
 
-  source = "./module/aws_s3_object"
-  s3_bucket = module.package_s3_bucket.id
-  key = "amazon/amazon_linux_bootstrap.sh" #remote path
+  source     = "./module/aws_s3_object"
+  s3_bucket  = module.package_s3_bucket.id
+  key        = "amazon/amazon_linux_bootstrap.sh"    #remote path
   sourcepath = "./scripts/amazon_linux_bootstrap.sh" #local path
 }
 
 module "component_for_ubuntu_package" {
-  depends_on = [ module.package_s3_bucket ]
+  depends_on = [module.package_s3_bucket]
 
-  source = "./module/aws_s3_object"
-  s3_bucket = module.package_s3_bucket.id
-  key = "ubuntu/ubuntuconfig.yaml"
+  source     = "./module/aws_s3_object"
+  s3_bucket  = module.package_s3_bucket.id
+  key        = "ubuntu/ubuntuconfig.yaml"
   sourcepath = "./scripts/ubuntuconfig.yaml"
 }
 
 module "bootstrap_shell_script_ubuntu" {
-  depends_on = [ module.package_s3_bucket ]
+  depends_on = [module.package_s3_bucket]
 
-  source = "./module/aws_s3_object"
-  s3_bucket = module.package_s3_bucket.id
-  key = "ubuntu/ubuntu_bootstrap.sh" #remote path
+  source     = "./module/aws_s3_object"
+  s3_bucket  = module.package_s3_bucket.id
+  key        = "ubuntu/ubuntu_bootstrap.sh"    #remote path
   sourcepath = "./scripts/ubuntu_bootstrap.sh" #local path
 }
 
 module "component_for_window_package" {
-  depends_on = [ module.package_s3_bucket ]
+  depends_on = [module.package_s3_bucket]
 
-  source = "./module/aws_s3_object"
-  s3_bucket = module.package_s3_bucket.id
-  key = "window/windowsconfig.yaml"
+  source     = "./module/aws_s3_object"
+  s3_bucket  = module.package_s3_bucket.id
+  key        = "window/windowsconfig.yaml"
   sourcepath = "./scripts/windowsconfig.yaml"
 }
 
 module "bootstrap_shell_script_windows" {
-  depends_on = [ module.package_s3_bucket ]
+  depends_on = [module.package_s3_bucket]
 
-  source = "./module/aws_s3_object"
-  s3_bucket = module.package_s3_bucket.id
-  key = "window/windows_server_bootstrap.ps1" #remote path
+  source     = "./module/aws_s3_object"
+  s3_bucket  = module.package_s3_bucket.id
+  key        = "window/windows_server_bootstrap.ps1"    #remote path
   sourcepath = "./scripts/windows_server_bootstrap.ps1" #local path
 }
 
 
 module "inspectorscaningfile" {
-  source = "./module/aws_s3_bucket"
+  source         = "./module/aws_s3_bucket"
   s3_bucket_name = "inspectorscaningfile"
-#   s3_bucket_prefix = var.package_s3_bucket_prefix
+  #   s3_bucket_prefix = var.package_s3_bucket_prefix
 }
 
 
 module "golden_s3_bucket_logging" {
-  source = "./module/aws_s3_bucket_logging"
+  source           = "./module/aws_s3_bucket_logging"
   source_bucket_id = module.package_s3_bucket.id
   target_bucket_id = module.package_s3_bucket.id
-  target_prefix = "log/"
+  target_prefix    = "log/"
 }
