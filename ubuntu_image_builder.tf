@@ -58,7 +58,7 @@ module "ubuntu_distribution" {
   source                                              = "./module/aws_imagebuilder_distribution_configuration"
   imagebuilder_distribution_configuration_name        = "ubuntu-ami-dis-conf"
   imagebuilder_distribution_configuration_description = "ubuntu-ami-dis-conf-discription"
-  imagebuilder_distribution_ami_tag                   = { image = "ubuntu" }
+  imagebuilder_distribution_ami_tag                   = { image = "ubuntu" , Name = "ecp-golden-ami-ubuntu" }
   ami_distribution_name                               = "ubuntu-ami-dist"
   kms_key_id                                          = module.kms_alias.kms_alias_arn
   user_ids                                            = ["211125510693", "602304653960"]

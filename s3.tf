@@ -1,6 +1,6 @@
 module "package_s3_bucket" {
   source         = "./module/aws_s3_bucket"
-  s3_bucket_name = var.package_s3_bucket_name
+  s3_bucket_name = "${var.package_s3_bucket_name}"
   #   s3_bucket_prefix = var.package_s3_bucket_prefix
 }
 
