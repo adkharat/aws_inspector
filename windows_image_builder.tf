@@ -1,13 +1,13 @@
 module "imagebuilder_component_for_windows" {
   depends_on = [ module.package_s3_bucket, module.component_for_window_package, module.kms ]
-  
+
   source = "./module/aws_imagebuilder_component"
   imagebuilder_component_name = "imagebuilder_component_for_window_ami"
   imagebuilder_component_platform = "Windows"
   imagebuilder_component_uri = "s3://${module.package_s3_bucket.id}/${module.component_for_window_package.key}" //key (yaml file) must be less than 64 KB
   imagebuilder_component_version = "1.0.0"
   supported_os_versions = ["Microsoft Windows Server 2022"]
-  kms_key_id = module.kms.arn
+  kms_key_id = module.kms_alias.kms_alias_arn
   # imagebuilder_component_uri = yamlencode({
   #   phases = [{
   #     name = "build"
@@ -35,7 +35,7 @@ module "image_recipe_for_windows" {
   imagebuilder_image_recipe_name = var.windows_imagebuilder_image_recipe_name
   imagebuilder_image_recipe_version = "1.0.0"
   imagebuilder_image_recipe_parent_image = "ami-0a72c1cec9779f01a" //AMI ID is region specific
-  imagebuilder_image_recipe_block_device_mapping_device_name = "/dev/xvdb" //  /dev/sda or /dev/xvdb.
+  imagebuilder_image_recipe_block_device_mapping_device_name = "/dev/sda1" //  /dev/sda or /dev/xvdb.
   imagebuilder_image_recipe_block_device_mapping_ebs_delete_on_termination = true
   imagebuilder_image_recipe_block_device_mapping_ebs_volume_size = 10
   imagebuilder_image_recipe_block_device_mapping_ebs_volume_type = "io1" // gp2 or io2.
@@ -43,9 +43,12 @@ module "image_recipe_for_windows" {
   imagebuilder_image_recipe_component_arn = module.imagebuilder_component_for_windows.arn
   uninstall_systems_manager_agent_after_build = false
   user_data_base64 = base64encode(file("./scripts/windows_server_bootstrap.ps1"))
+  encrypted = true
   working_directory = "C:/"
   imagebuilder_component_platform = "Windows"
-  kms_key_id = module.kms.arn
+  kms_key_id = module.kms.key_id
+  aws_cloudwatch_component = "arn:aws:imagebuilder:us-east-1:aws:component/amazon-cloudwatch-agent-windows/x.x.x"
+  aws_cli_component = "arn:aws:imagebuilder:us-east-1:aws:component/aws-cli-version-2-windows/x.x.x"
   tags = {
     "Name" = "image_recipe_for_windows_server"
   }
@@ -60,7 +63,7 @@ module "windows_distribution" {
   imagebuilder_distribution_configuration_description = "windows-server-ami-dis-conf-discription"
   imagebuilder_distribution_ami_tag = {image = "windows-server"}
   ami_distribution_name = "windows-server-ami-dist"
-  # kms_key_id = module.kms.arn
+  kms_key_id = module.kms.key_id
   user_ids = local.account_id
   target_account_ids = local.account_id
   region = var.aws_region
@@ -70,7 +73,7 @@ module "windows_distribution" {
 }
 
 module "imagebuilder_windows_image_pipeline" {
-  depends_on = [ module.image_recipe_for_windows, module.imagebuilder_infrastructure_configuration, module.windows_distribution, module.image_builder_workflow, module.inspector2_enabler]
+  depends_on = [ module.image_recipe_for_windows, module.imagebuilder_infrastructure_configuration, module.windows_distribution, module.image_builder_build_workflow, module.image_builder_test_workflow, module.inspector2_enabler]
 
   source = "./module/aws_imagebuilder_image_pipeline"
   imagebuilder_image_pipeline_name = "windows_server_image_pipeline"
@@ -78,7 +81,8 @@ module "imagebuilder_windows_image_pipeline" {
   imagebuilder_image_pipeline_image_recipe_arn = module.image_recipe_for_windows.arn
   distribution_configuration_arn = module.windows_distribution.arn
   execution_role_to_execute_workflow = module.aws_service_role_for_image_builder_role.arn //AWS managed role AWSServiceRoleForImageBuilder
-  workflow_arn = module.image_builder_workflow.arn
+  build_workflow_arn                                             = module.image_builder_build_workflow.arn            #Build workflow
+  test_workflow_arn                                              = module.image_builder_test_workflow.arn             #Test workflow
   imagebuilder_image_pipeline_infrastructure_configuration_arn = module.imagebuilder_infrastructure_configuration.arn
   imagebuilder_image_pipeline_status = "ENABLED"
   imagebuilder_image_pipeline_schedule_expression = "cron(0 10 * * ? *)" //Run daily at 10:00 AM
