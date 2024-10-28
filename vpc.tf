@@ -5,6 +5,7 @@ module "vpc" {
 
   vpc_instance_tenancy   = "default"
   vpc_enable_dns_support = true
+  enable_dns_hostnames = true
   vpc_tag = {
     "Name" = "golden_image_vpc"
   }
@@ -32,7 +33,7 @@ module "public_subnet" {
   subnet_vpc_id                  = module.vpc.id
   subnet_cidr_block              = "10.0.2.0/24"
   subnet_availability_zone       = data.aws_availability_zones.available.names[0]
-  subnet_map_public_ip_on_launch = true
+  subnet_map_public_ip_on_launch = false
   subnet_tags = {
     "Name" = "golden_image_public_subnet"
   }
@@ -120,18 +121,7 @@ module "public_route_table_association" {
   subnet_id      = module.public_subnet.id
 }
 
-module "vpc_endpoint" {
-  depends_on = [module.vpc, module.private_subnet]
 
-  source = "./module/aws_vpc_endpoint"
-
-  vpc_endpoint_vpc_id       = module.vpc.id
-  vpc_endpoint_type         = "Gateway"
-  vpc_endpoint_service_name = "com.amazonaws.${var.aws_region}.s3"
-  vpc_endpoint_tags = {
-    "Name" = "golden_image_vpc_endpoint"
-  }
-}
 
 module "golden_vpc_cloudwatch_log_group" {
   source                    = "./module/aws_cloudwatch_log_group"
@@ -150,5 +140,46 @@ module "golden_vpc_flow_log" {
   iam_role_arn        = module.golden_vpc_flow_log_role.arn
   tags = {
     Name = "golden_vpc_cloudwatch_log"
+  }
+}
+
+module "vpc_s3_endpoint" {
+  depends_on = [module.vpc, module.private_subnet]
+
+  source = "./module/aws_vpc_endpoint"
+
+  vpc_endpoint_vpc_id       = module.vpc.id
+  vpc_endpoint_type         = "Gateway"
+  vpc_endpoint_service_name = "com.amazonaws.${var.aws_region}.s3"
+  vpc_endpoint_tags = {
+    "Name" = "golden_image_vpc_endpoint"
+  }
+}
+
+locals {
+  services = {
+    "ec2messages" : {
+      "name" : "com.amazonaws.${var.aws_region}.ec2messages"
+    },
+    "ssm" : {
+      "name" : "com.amazonaws.${var.aws_region}.ssm"
+    },
+    "ssmmessages" : {
+      "name" : "com.amazonaws.${var.aws_region}.ssmmessages"
+    }
+  }
+}
+
+resource "aws_vpc_endpoint" "ssm_endpoint" {
+  for_each = local.services
+  vpc_id   = module.vpc.id
+  service_name        = each.value.name
+  vpc_endpoint_type   = "Interface"
+  security_group_ids  = [module.https_sg.id]
+  private_dns_enabled = true
+  ip_address_type     = "ipv4"
+  subnet_ids          = [module.private_subnet.id]
+  tags = {
+    Name = "${each.key}_endpoint"
   }
 }
