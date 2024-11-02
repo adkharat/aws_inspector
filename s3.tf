@@ -1,7 +1,13 @@
 module "package_s3_bucket" {
+  depends_on = [ module.kms_alias ]
+
   source         = "./module/aws_s3_bucket"
-  s3_bucket_name = "${var.package_s3_bucket_name}"
+  s3_bucket_name = "${var.package_s3_bucket_name}-${random_uuid.uuid.result}"
+  kms_key_arn = module.kms_alias.kms_alias_arn
   #   s3_bucket_prefix = var.package_s3_bucket_prefix
+  tags = {
+    Name        = "${var.package_s3_bucket_name}"
+  }
 }
 
 module "s3_bucket_versioning" {
@@ -73,9 +79,15 @@ module "bootstrap_shell_script_windows" {
 
 
 module "inspectorscaningfile" {
+  depends_on = [ module.kms_alias ]
+
   source         = "./module/aws_s3_bucket"
   s3_bucket_name = "inspectorscaningfile"
+  kms_key_arn = module.kms_alias.kms_alias_arn
   #   s3_bucket_prefix = var.package_s3_bucket_prefix
+  tags = {
+    Name = "inspectorscaningfile"
+  }
 }
 
 

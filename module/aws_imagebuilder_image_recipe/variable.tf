@@ -16,4 +16,6 @@ variable "working_directory" {}
 variable "kms_key_id" {}
 variable "tags" {}
 variable "encrypted" {}
+variable "aws_cli_component" {}
+variable "aws_cloudwatch_component" {}
 variable "imagebuilder_component_platform" {}

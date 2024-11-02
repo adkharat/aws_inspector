@@ -124,6 +124,7 @@ module "public_route_table_association" {
 
 
 module "golden_vpc_cloudwatch_log_group" {
+  depends_on          = [module.vpc]
   source                    = "./module/aws_cloudwatch_log_group"
   cloudwatch_log_group_name = "golden_vpc_cloudwatch_log_group"
   tags = {
@@ -176,7 +177,7 @@ resource "aws_vpc_endpoint" "ssm_endpoint" {
   service_name        = each.value.name
   vpc_endpoint_type   = "Interface"
   security_group_ids  = [module.https_sg.id]
-  private_dns_enabled = true
+  private_dns_enabled = false
   ip_address_type     = "ipv4"
   subnet_ids          = [module.private_subnet.id]
   tags = {

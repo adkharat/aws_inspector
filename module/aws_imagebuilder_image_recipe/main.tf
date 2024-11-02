@@ -15,6 +15,14 @@ resource "aws_imagebuilder_image_recipe" "imagebuilder_image_recipe" {
       # }
     }
 
+    component {
+      component_arn = var.aws_cli_component 
+    }
+
+    component {
+      component_arn = var.aws_cloudwatch_component  
+    }
+
     block_device_mapping {
       device_name = var.imagebuilder_image_recipe_block_device_mapping_device_name // /dev/sda or /dev/xvdb.
       

@@ -1,3 +1,4 @@
+# https://docs.aws.amazon.com/imagebuilder/latest/userguide/toe-action-modules.html
 module "imagebuilder_component_for_ubuntu" {
   depends_on = [module.package_s3_bucket, module.component_for_ubuntu_package, module.kms]
 
@@ -47,6 +48,8 @@ module "image_recipe_for_ubuntu" {
   encrypted                                                                = true
   imagebuilder_component_platform                                          = "Linux"
   kms_key_id                                                               = module.kms_alias.kms_alias_name
+  aws_cloudwatch_component = "arn:aws:imagebuilder:us-east-1:aws:component/amazon-cloudwatch-agent-linux/x.x.x"
+  aws_cli_component = "arn:aws:imagebuilder:us-east-1:aws:component/aws-cli-version-2-linux/x.x.x"
   tags = {
     "Name" = "image_recipe_for_ubuntu"
   }

@@ -2,6 +2,12 @@ name: HelloWorldTestingDocument
 description: This is hello world testing document.
 schemaVersion: 1.0
 
+parameters:
+  - S3BucketScript:
+      type: string
+      default: 'ec2inspackagebucket0'
+      description: The S3 bucket name where the script is stored.
+      
 phases:
   - name: build
     steps:

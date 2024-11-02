@@ -2,6 +2,12 @@ name: HelloWorldTestingDocument
 description: This is hello world testing document.
 schemaVersion: 1.0
 
+parameters:
+  - S3BucketScript:
+      type: string
+      default: 'ec2inspackagebucket0-7927edca-33b0-49fa-8db3-c89d7ebea4b9'
+      description: The S3 bucket name where the script is stored.
+
 phases:
   - name: 'build'
     steps:
@@ -11,7 +17,7 @@ phases:
         onFailure: Continue
         maxAttempts: 10
         inputs:
-          - source: 's3://ec2inspackagebucket0/ubuntu/ubuntu_bootstrap.sh'
+          - source: "s3://{{ S3BucketScript }}/ubuntu/ubuntu_bootstrap.sh"
             destination: '/tmp/configureEC2.sh'
       - name: VerifyFileDownload
         action: ExecuteBash

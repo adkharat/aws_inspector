@@ -1,4 +1,6 @@
 //https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/imagebuilder_component
+# https://docs.aws.amazon.com/imagebuilder/latest/userguide/toe-action-modules.html
+# https://docs.aws.amazon.com/imagebuilder/latest/userguide/toe-user-defined-variables.html
 resource "aws_imagebuilder_component" "imagebuilder_component" {
     name = var.imagebuilder_component_name
     platform = var.imagebuilder_component_platform
