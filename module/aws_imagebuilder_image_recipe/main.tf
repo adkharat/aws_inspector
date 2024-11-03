@@ -9,10 +9,10 @@ resource "aws_imagebuilder_image_recipe" "imagebuilder_image_recipe" {
     component {
       component_arn = var.imagebuilder_image_recipe_component_arn
 
-      # parameter {
-      #   name = var.imagebuilder_image_recipe_component_parameter_name
-      #   value = var.imagebuilder_image_recipe_component_parameter_value 
-      # }
+      parameter {
+        name = var.build_comp_parameter_1_name
+        value = var.build_comp_parameter_1_value 
+      }
     }
 
     component {

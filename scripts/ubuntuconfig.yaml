@@ -5,7 +5,7 @@ schemaVersion: 1.0
 parameters:
   - S3BucketScript:
       type: string
-      default: 'ec2inspackagebucket0-7927edca-33b0-49fa-8db3-c89d7ebea4b9'
+      default: 'ec2inspackagebucket0'
       description: The S3 bucket name where the script is stored.
 
 phases:

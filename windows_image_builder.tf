@@ -29,7 +29,7 @@ module "imagebuilder_component_for_windows" {
 }
 
 module "image_recipe_for_windows" {
-  depends_on = [ module.imagebuilder_component_for_windows, module.kms ]
+  depends_on = [ module.imagebuilder_component_for_windows, module.kms, module.package_s3_bucket ]
 
   source = "./module/aws_imagebuilder_image_recipe"
   imagebuilder_image_recipe_name = var.windows_imagebuilder_image_recipe_name
@@ -41,6 +41,8 @@ module "image_recipe_for_windows" {
   imagebuilder_image_recipe_block_device_mapping_ebs_volume_type = "io1" // gp2 or io2.
   imagebuilder_image_recipe_block_device_mapping_ebs_iops = 100
   imagebuilder_image_recipe_component_arn = module.imagebuilder_component_for_windows.arn
+  build_comp_parameter_1_name = "S3BucketScript"
+  build_comp_parameter_1_value = data.aws_s3_bucket.script_bucket.bucket
   uninstall_systems_manager_agent_after_build = false
   user_data_base64 = base64encode(file("./scripts/windows_server_bootstrap.ps1"))
   encrypted = true
