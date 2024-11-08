@@ -49,7 +49,7 @@ module "imagebuilder_infrastructure_configuration" {
 resource "aws_imagebuilder_lifecycle_policy" "ami_lifecycle" {
   depends_on = [module.lifecycle_policy_role_attachment]
 
-  name           = "ami_lifecycle"
+  name           = "ecp_ami_lifecycle"
   description    = "common_ami_lifecycle description"
   execution_role = module.execution_role_for_ami_lifecycle.arn
   resource_type  = "AMI_IMAGE"
