@@ -193,3 +193,19 @@ module "logs_policy_and_role_attachment" {
   iam_role_name  = module.golden_vpc_flow_log_role.name
   iam_policy_arn = module.logs_policy.arn
 }
+
+/* execution_role_for_lifecycle_policy */
+module "execution_role_for_ami_lifecycle" {
+  source                = "./module/aws_iam_role"
+  iam_role_name         = "execution_role_for_lifecycle_policy"
+  iam_role_trust_policy = data.aws_iam_policy_document.execution_role_for_lifecycle_policy_assume_role.json
+}
+
+module "lifecycle_policy_role_attachment" {
+
+  depends_on = [module.execution_role_for_ami_lifecycle]
+
+  source         = "./module/aws_iam_role_policy_attachment"
+  iam_role_name  = module.execution_role_for_ami_lifecycle.name
+  iam_policy_arn = "arn:${data.aws_partition.current.partition}:iam::aws:policy/service-role/EC2ImageBuilderLifecycleExecutionPolicy"
+}

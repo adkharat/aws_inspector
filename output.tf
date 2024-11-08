@@ -87,3 +87,11 @@ output "kms_alias_arn" {
 output "kms_alias_id" {
   value = module.kms_alias.kms_alias_id
 }
+
+output "current_partition" {
+  value = data.aws_partition.current
+}
+
+output "current_partition_dns_suffix" {
+  value = data.aws_partition.current.dns_suffix
+}

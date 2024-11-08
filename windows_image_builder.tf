@@ -37,7 +37,7 @@ module "image_recipe_for_windows" {
   imagebuilder_image_recipe_parent_image = "ami-0a72c1cec9779f01a" //AMI ID is region specific
   imagebuilder_image_recipe_block_device_mapping_device_name = "/dev/sda1" //  /dev/sda or /dev/xvdb.
   imagebuilder_image_recipe_block_device_mapping_ebs_delete_on_termination = true
-  imagebuilder_image_recipe_block_device_mapping_ebs_volume_size = 10
+  imagebuilder_image_recipe_block_device_mapping_ebs_volume_size = 30
   imagebuilder_image_recipe_block_device_mapping_ebs_volume_type = "io1" // gp2 or io2.
   imagebuilder_image_recipe_block_device_mapping_ebs_iops = 100
   imagebuilder_image_recipe_component_arn = module.imagebuilder_component_for_windows.arn
@@ -63,7 +63,7 @@ module "windows_distribution" {
   source = "./module/aws_imagebuilder_distribution_configuration"
   imagebuilder_distribution_configuration_name = "windows-server-ami-dis-conf"
   imagebuilder_distribution_configuration_description = "windows-server-ami-dis-conf-discription"
-  imagebuilder_distribution_ami_tag = {image = "windows-server"}
+  imagebuilder_distribution_ami_tag = {image = "windows-server",  Name = "ecp-golden-ami-window" }
   ami_distribution_name = "windows-server-ami-dist"
   kms_key_id = module.kms.key_id
   user_ids = local.account_id

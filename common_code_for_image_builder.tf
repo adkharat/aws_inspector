@@ -44,3 +44,49 @@ module "imagebuilder_infrastructure_configuration" {
     "Name" = "imagebuilder_infrastructure_configuration"
   }
 }
+
+# https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/imagebuilder_lifecycle_policy
+resource "aws_imagebuilder_lifecycle_policy" "ami_lifecycle" {
+  depends_on = [module.lifecycle_policy_role_attachment]
+
+  name           = "ami_lifecycle"
+  description    = "common_ami_lifecycle description"
+  execution_role = module.execution_role_for_ami_lifecycle.arn
+  resource_type  = "AMI_IMAGE"
+  policy_detail {
+    action {
+      type = "DELETE"
+      include_resources {
+        amis = true #Delete AMI
+        snapshots = true #Delete AMI Snapshot
+        containers = false #Don't delete container 
+      }
+    }
+    filter {
+      type            = "AGE"
+      value           = 1 #X days old/age image
+      retain_at_least = 1 #value must be between 1 and 10
+      unit            = "DAYS"
+    }
+  }
+
+  #selection criteria you've entered for the resources that the policy rules should apply
+  resource_selection {
+    recipe {
+      name = "ubuntu_receipe"
+      semantic_version = "1.0.0" #receipe version
+    }
+    recipe {
+      name = "amazon_linux_receipe"
+      semantic_version = "1.0.0" #receipe version
+    }
+    recipe {
+      name = "window_server_receipe"
+      semantic_version = "1.0.0" #receipe version
+    }
+  }
+
+  tags = {
+    "Name" = "ecp_common_ami_lifecycle"
+  }
+}
