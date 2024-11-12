@@ -53,6 +53,41 @@ resource "aws_imagebuilder_lifecycle_policy" "ami_lifecycle" {
   description    = "common_ami_lifecycle description"
   execution_role = module.execution_role_for_ami_lifecycle.arn
   resource_type  = "AMI_IMAGE"
+
+  policy_detail {
+    action {
+      type = "DEPRECATE" #'snapshots' cannot be included for action 'DEPRECATE'.
+        include_resources {
+        amis = true #Depricate AMI
+        snapshots = false
+        containers = false #Don't Depricate container 
+      }
+    }
+    filter {
+      type            = "AGE"
+      value           = 2 #X days old/age image
+      retain_at_least = 1 #value must be between 1 and 10
+      unit            = "DAYS"
+    }
+  }
+
+  policy_detail {
+    action {
+      type = "DISABLE" #'snapshots' cannot be included for action 'DISABLE'.
+        include_resources {
+        amis = true #Disable AMI
+        snapshots = false
+        containers = false #Don't Disable container 
+      }
+    }
+    filter {
+      type            = "AGE"
+      value           = 5 #X days old/age image
+      retain_at_least = 1 #value must be between 1 and 10
+      unit            = "DAYS"
+    }
+  }  
+
   policy_detail {
     action {
       type = "DELETE"
@@ -64,11 +99,13 @@ resource "aws_imagebuilder_lifecycle_policy" "ami_lifecycle" {
     }
     filter {
       type            = "AGE"
-      value           = 1 #X days old/age image
+      value           = 7 #X days old/age image
       retain_at_least = 1 #value must be between 1 and 10
       unit            = "DAYS"
     }
   }
+
+
 
   #selection criteria you've entered for the resources that the policy rules should apply
   resource_selection {
